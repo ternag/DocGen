@@ -18,7 +18,6 @@ GoDoIt();
 
 /* TODO
 - Fill in blanks in metadata file.
-- Add relation(s) to source documents
 - Add NumberOfSections to a document
 - Write write outgoing relations in section 1 of the source document.
 - zip and send documents to Fundament
@@ -29,11 +28,9 @@ GoDoIt();
 
 void GoDoIt()
 {
-    var targetDocumentInfos = BuildTargetDocumentInfo(specification.TargetDocuments);
-    var sourceDocumentInfos = BuildSourceDocumentInfo(specification.SourceDocuments);
-    var staticRelationInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
-
-    
+    var targetDocumentInfos = Builder.BuildTargetDocumentInfo(specification.TargetDocuments);
+    var sourceDocumentInfos = Builder.BuildSourceDocumentInfo(specification.SourceDocuments);
+    var staticRelationInfos = Builder.BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
     foreach (var relation in staticRelationInfos)
     {
@@ -53,48 +50,7 @@ void GoDoIt()
 }
 
 
-IEnumerable<StaticRelationInfo> BuildManyToOneStaticRelations(ManyStaticRelationToOne specification, IEnumerable<SourceDocumentInfo> sourceDocumentInfos, TargetDocumentInfo targetDocumentInfo)
-{
-    if (specification.Generate == false) yield break;
 
-    int i = 0;
-    
-    foreach (SourceDocumentInfo documentInfo in sourceDocumentInfos)
-    {
-        yield return new StaticRelationInfo(i, documentInfo, targetDocumentInfo, specification.RelationTypeCode);
-        i++;
-    }
-}
-
-
-IReadOnlyList<SourceDocumentInfo> BuildSourceDocumentInfo(SourceDocuments sourceDocumentSpecification)
-{
-    List<SourceDocumentInfo> result = new List<SourceDocumentInfo>((int)sourceDocumentSpecification.Count);
-    foreach (int i in sourceDocumentSpecification.Count.Range1())
-    {
-        var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", BuildSectionsInfo(sourceDocumentSpecification));
-        result.Add(documentInfo);
-    }
-    return result;
-}
-
-
-IEnumerable<TargetDocumentInfo> BuildTargetDocumentInfo(TargetDocuments targetDocumentSpecification)
-{
-    foreach (int i in targetDocumentSpecification.Count.Range1())
-    {
-        var documentInfo = new TargetDocumentInfo(i, $"Target document No. {i} of {targetDocumentSpecification.Count}", BuildSectionsInfo(targetDocumentSpecification));
-        yield return documentInfo;
-    }
-}
-
-IEnumerable<SectionInfo> BuildSectionsInfo(Documents specification)
-{
-    foreach (int i in specification.NumberOfSections.Range1())
-    {
-        yield return new SectionInfo($"BM{i}");
-    }
-}
 
 void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
 {
@@ -120,5 +76,3 @@ public record TargetDocumentInfo(int Id, string Title, IEnumerable<SectionInfo> 
 }
 
 public record StaticRelationInfo(int Id, SourceDocumentInfo SourceDocument, TargetDocumentInfo TargetDocument, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");
-
-

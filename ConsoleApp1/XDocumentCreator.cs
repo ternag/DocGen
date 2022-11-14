@@ -12,22 +12,33 @@ public class XDocumentCreator
     public XDocument CreateDocument(DocumentInfo info)
     {
         var document = new XDocument(documentTemplateXml);
+        if (document.Root == null) throw new NullReferenceException(nameof(document.Root));
+
+        var ns = document.Root.GetDefaultNamespace();
+
         var docDescription = document.GetElementById("doc_description");
         if (docDescription != null) docDescription.Value = info.Title;
 
         if (document.Root == null) throw new NullReferenceException(nameof(document.Root));
 
-        var article = document.Root.Element("article");
-        if (article == null) throw new NullReferenceException(nameof(article));
+        var xArticle = document.Descendants(ns+"article").FirstOrDefault();
+        if (xArticle == null) throw new NullReferenceException(nameof(xArticle));
 
-        article.Add();
+        foreach(var section in info.Sections)
+        {
+            var xSection = CreateSection(section, ns);
+            xArticle.Add(xSection);
+        }
 
         return document;
     }
 
-    public XElement CreateSection(SectionInfo sectionInfo)
+    public XElement CreateSection(SectionInfo sectionInfo, XNamespace ns)
     {
-        var element = new XElement("section", new XAttribute("id", $"BM{sectionInfo.Id}"));
+        var element = new XElement(ns+"section", 
+            new XAttribute("id", sectionInfo.Id), 
+            new XElement(ns+"h1", sectionInfo.Id), 
+            new XElement(ns+"p", LoremIpsum.GetRandomLength()));
 
         return element;
     }
@@ -41,11 +52,11 @@ public class XDocumentCreator
 
         if (mf == null) throw new NullReferenceException(nameof(mf));
 
-        metadata.SetElementValue(mf+"publicid", $"public-{info.Id}");
-        metadata.SetElementValue(mf+"date_effect", DateTime.Now.ToString("s"));
-        metadata.Descendants(mf+"date_expired").Remove();
-        metadata.SetElementValue(mf+"title", info.Title);
-        metadata.Descendants(mf+ "consolidated_law").Remove();
+        metadata.SetElementValue(mf + "publicid", $"public-{info.Id}");
+        metadata.SetElementValue(mf + "date_effect", DateTime.Now.ToString("s"));
+        metadata.Descendants(mf + "date_expired").Remove();
+        metadata.SetElementValue(mf + "title", info.Title);
+        metadata.Descendants(mf + "consolidated_law").Remove();
         metadata.AddClassification("DocumentType", "Love");
         return metadata;
     }

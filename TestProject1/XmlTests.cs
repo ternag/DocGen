@@ -33,5 +33,24 @@ namespace TestProject1
 
             _output.WriteLine(metadata.ToString());
         }
+
+        [Fact]
+        public void Document()
+        {
+            XDocumentCreator sut = new XDocumentCreator();
+
+            var sourceDocumentSpecification = new SourceDocuments(1, 3);
+
+            var sourceDocument = Builder.BuildSourceDocumentInfo(sourceDocumentSpecification).First();
+            var document = sut.CreateDocument(sourceDocument);
+
+            _output.WriteLine(document.ToString());
+        }
+
+        [Fact]
+        public void LoremIpsumTest()
+        {
+            _output.WriteLine(LoremIpsum.GetRandomLength());
+        }
     }
 }
