@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://xmlns.schultz.dk/rhinestone/rng/rhinestone.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://xmlns.schultz.dk/rhinestone/sch/slr.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <article id="a1">
+    <header>
+      <h1>Document <span id="doc_description"></span></h1>
+    </header>
+    <section id="s1">
+      <h1>Section title 1</h1>
+      <p id="s1_content">Section 1 content</p>
+      <p>Document outgoing relation(s):</p>
+      <p></p>
+      <p>Section 1 outgoing relation(s)</p>
+      <p></p>
+    </section>
+  </article>
+</html>

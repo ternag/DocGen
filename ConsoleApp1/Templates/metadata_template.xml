@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentMetadata xmlns="urn:schultz.dk:rhinestone:1.0:metadata:1.0" xmlns:mf="urn:schultz.dk:mayflower:1.0:metadata:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:terms="http://purl.org/dc/terms/" xsi:schemaLocation="urn:schultz.dk:rhinestone:1.0:metadata:1.0 RhinestoneMetadata.xsd">
+  <Properties>
+    <mf:publicid>{public_id}</mf:publicid>
+    <mf:used_in>SCHULTZLEGAL</mf:used_in>
+    <mf:date_effect>{date_effect}</mf:date_effect>
+    <mf:date_expired>{date_expired}</mf:date_expired>
+    <mf:consolidated_law>{consolidated_law}</mf:consolidated_law>
+    <mf:title>{title}</mf:title>
+    <mf:document_type>Lov</mf:document_type>
+    <mf:productcodes>schultzlegal</mf:productcodes>
+  </Properties>
+  <Classifications>
+  </Classifications>
+  <Relations>
+  </Relations>
+</DocumentMetadata>
