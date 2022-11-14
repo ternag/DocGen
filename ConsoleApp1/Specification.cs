@@ -39,12 +39,11 @@ public record Specification(
     [property: JsonPropertyName("ManySingleTargetRelationsToOneFamily")] ManySingleTargetRelationsToOneFamily ManySingleTargetRelationsToOneFamily
 );
 
-public record SourceDocuments(
-    [property: JsonPropertyName("Count")] int Count,
-    [property: JsonPropertyName("NumberOfSections")] int NumberOfSections
-);
+public record SourceDocuments(int Count, int NumberOfSections) : Documents(Count, NumberOfSections);
 
-public record TargetDocuments(
+public record TargetDocuments(int Count, int NumberOfSections) : Documents(Count, NumberOfSections);
+
+public record Documents(
     [property: JsonPropertyName("Count")] int Count,
     [property: JsonPropertyName("NumberOfSections")] int NumberOfSections
 );

@@ -19,6 +19,8 @@ public static class Extensions
 
     public static void AddClassification(this XDocument document, string taxonomyName, string taxonKey)
     {
+        if(document.Root == null) throw new NullReferenceException(nameof(document.Root));
+
         var ns = document.Root.GetDefaultNamespace();
         var classifications = document.Root.Descendants(ns + "Classifications").SingleOrDefault();
         XElement classification = new XElement(ns + "Classification", new XAttribute("TaxonomyName", taxonomyName), new XAttribute("TaxonKey", taxonKey));
@@ -36,8 +38,10 @@ public static class Extensions
     // <DocumentDocumentRelation RelationTypeCode="DIREKTE" SourceBookmark="p1-1" TargetFullName="71769" TargetBookmark="p1-1" />
     public static void AddStaticRelation(this XDocument document, string relationTypeCode, string targetFullname, string sourceBookmark = "", string targetBookmark = "")
     {
-        var ns = document.Root?.GetDefaultNamespace();
-        var relations = document.Root?.Descendants(ns + "Relations").SingleOrDefault();
+        if (document.Root == null) throw new NullReferenceException(nameof(document.Root));
+
+        var ns = document.Root.GetDefaultNamespace();
+        var relations = document.Root.Descendants(ns + "Relations").SingleOrDefault();
 
         var relation = new XElement(ns + "DocumentDocumentRelation", 
             new XAttribute("RelationTypeCode", relationTypeCode), 

@@ -31,14 +31,16 @@ void GoDoIt()
 {
     var targetDocumentInfos = BuildTargetDocumentInfo(specification.TargetDocuments);
     var sourceDocumentInfos = BuildSourceDocumentInfo(specification.SourceDocuments);
-    var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
+    var staticRelationInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
+    
 
-    foreach (var doc in sourceDocumentWithStaticRelationsInfos)
+    foreach (var relation in staticRelationInfos)
     {
-        var documentXml = generator.CreateDocument(doc);
-        var metadataXml = generator.CreateMetadata(doc);
-        SaveDocument(documentXml, metadataXml, doc);
+        var documentXml = generator.CreateDocument(relation.SourceDocument);
+        var metadataXml = generator.CreateMetadata(relation.SourceDocument);
+        metadataXml.AddStaticRelation(relation);
+        SaveDocument(documentXml, metadataXml, relation.SourceDocument);
     }
 
     foreach (var doc in targetDocumentInfos)
@@ -70,7 +72,7 @@ IReadOnlyList<SourceDocumentInfo> BuildSourceDocumentInfo(SourceDocuments source
     List<SourceDocumentInfo> result = new List<SourceDocumentInfo>((int)sourceDocumentSpecification.Count);
     foreach (int i in sourceDocumentSpecification.Count.Range1())
     {
-        var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", BuildSectionsInfo());
+        var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", BuildSectionsInfo(sourceDocumentSpecification));
         result.Add(documentInfo);
     }
     return result;
@@ -86,7 +88,7 @@ IEnumerable<TargetDocumentInfo> BuildTargetDocumentInfo(TargetDocuments targetDo
     }
 }
 
-IEnumerable<SectionInfo> BuildSectionsInfo(TargetDocuments specification)
+IEnumerable<SectionInfo> BuildSectionsInfo(Documents specification)
 {
     foreach (int i in specification.NumberOfSections.Range1())
     {
