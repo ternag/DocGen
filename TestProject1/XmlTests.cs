@@ -22,7 +22,7 @@ namespace TestProject1
         {
             XDocumentCreator sut = new XDocumentCreator();
 
-            var sourceDocument = new SourceDocumentInfo(1, "test");
+            var sourceDocument = new SourceDocumentInfo(1, "test", Array.Empty<SectionInfo>());
             var targetDocument = new TargetDocumentInfo(5, "Target5", new List<SectionInfo>());
 
             var staticRelationInfo = new StaticRelationInfo(12,

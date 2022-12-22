@@ -30,15 +30,6 @@ public record ManyStaticRelationToOne(
     [property: JsonPropertyName("PercentToTargetSections")] Percent PercentToTargetSections
 );
 
-public record Specification(
-    [property: JsonPropertyName("SourceDocuments")] SourceDocuments SourceDocuments,
-    [property: JsonPropertyName("TargetDocuments")] TargetDocuments TargetDocuments,
-    [property: JsonPropertyName("Families")] TargetFamilies TargetFamilies,
-    [property: JsonPropertyName("ManyStaticRelationToOne")] ManyStaticRelationToOne ManyStaticRelationToOne,
-    [property: JsonPropertyName("ManyRangeTargetRelationsToOneFamily")] ManyRangeTargetRelationsToOneFamily ManyRangeTargetRelationsToOneFamily,
-    [property: JsonPropertyName("ManySingleTargetRelationsToOneFamily")] ManySingleTargetRelationsToOneFamily ManySingleTargetRelationsToOneFamily
-);
-
 public record SourceDocuments(
     [property: JsonPropertyName("Count")] int Count,
     [property: JsonPropertyName("NumberOfSections")] int NumberOfSections
@@ -62,3 +53,60 @@ public record TargetWithinDocument(
     [property: JsonPropertyName("PercentToTargetDocument")] Percent PercentToTargetDocument,
     [property: JsonPropertyName("PercentToTargetSections")] Percent PercentToTargetSections
 );
+
+// Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
+public record Document(
+    [property: JsonPropertyName("Name")] string Name,
+    [property: JsonPropertyName("Relations")] IReadOnlyList<Relation> Relations,
+    [property: JsonPropertyName("Sections")] IReadOnlyList<Section> Sections
+);
+
+public record Relation(
+    [property: JsonPropertyName("Count")] int Count,
+    [property: JsonPropertyName("RelationKind")] string RelationKind,
+    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode
+);
+
+public record Specification(
+    [property: JsonPropertyName("SourceDocuments")] SourceDocuments SourceDocuments,
+    [property: JsonPropertyName("TargetFamilies")] TargetFamilies TargetFamilies,
+    [property: JsonPropertyName("ManyStaticRelationToOne")] ManyStaticRelationToOne ManyStaticRelationToOne,
+    [property: JsonPropertyName("ManyRangeTargetRelationsToOneFamily")] ManyRangeTargetRelationsToOneFamily ManyRangeTargetRelationsToOneFamily,
+    [property: JsonPropertyName("ManySingleTargetRelationsToOneFamily")] ManySingleTargetRelationsToOneFamily ManySingleTargetRelationsToOneFamily,
+    [property: JsonPropertyName("TargetDocuments")] IReadOnlyList<TargetDocument> TargetDocuments,
+    [property: JsonPropertyName("TargetFamily")] TargetFamily TargetFamily
+);
+
+public record Section
+{
+    [property: JsonPropertyName("Count")]
+    public int Count { get; init; } = 1;
+
+    [property: JsonPropertyName("NumberOfStaticRelations")]
+    public int NumberOfStaticRelations { get; init; }
+
+    [property: JsonPropertyName("NumberOfRangedTargetRelations")]
+    public int NumberOfRangedTargetRelations { get; init; }
+
+    [property: JsonPropertyName("NumberOfSingleTargetRelations")]
+    public int NumberOfSingleTargetRelations { get; init; }
+}
+
+public record TargetDocument
+{
+    [property: JsonPropertyName("Count")] public int Count { get; init; } = 1;
+    [property: JsonPropertyName("Title")] public string Title { get; init; } = "Target document";
+    [property: JsonPropertyName("NumberOfStaticRelations")] public int NumberOfStaticRelations { get; init; }
+    [property: JsonPropertyName("NumberOfRangedTargetRelations")]  public int NumberOfRangedTargetRelations { get; init; }
+    [property: JsonPropertyName("NumberOfSingleTargetRelations")]  public int NumberOfSingleTargetRelations { get; init; }
+    [property: JsonPropertyName("Sections")]  public IReadOnlyList<Section> Sections { get; init; } = new List<Section>();
+}
+public record TargetFamily(
+    [property: JsonPropertyName("FamilyName")] string FamilyName,
+    [property: JsonPropertyName("Document")] Document Document,
+    [property: JsonPropertyName("NumberOfHistoricDocuments")] int NumberOfHistoricDocuments,
+    [property: JsonPropertyName("NumberOfEffectiveDocuments")] int NumberOfEffectiveDocuments,
+    [property: JsonPropertyName("NumberOfFutureDocuments")] int NumberOfFutureDocuments,
+    [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments
+);
+

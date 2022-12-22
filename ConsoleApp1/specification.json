@@ -1,46 +1,25 @@
 {
-    "SourceDocuments": {
-        "Count": 12,
-        "NumberOfSections": 1
-    },
-    "TargetDocuments": {
-        "Count": 1,
-        "NumberOfSections": 5
-    },
-    "TargetFamilies": {
-        "Count": 1,
-        "FamilyDocument": {
-            "Count": 0,
-            "NumberOfSections": 1
+  "TargetDocuments": [
+    {
+      "Title": "Test many relations to this document",
+      "NumberOfStaticRelations": 6000,
+      "NumberOfRangedTargetRelations": 1,
+      "NumberOfSingleTargetRelations": 1,
+      "Sections": [
+        {
+          "NumberOfStaticRelations": 500,
+          "Count": 10
         },
-        "NumberOfHistoricDocuments": 3,
-        "NumberOfEffectiveDocuments": 1,
-        "NumberOfFutureDocuments": 0,
-        "NumberOfIndeterminateDocuments": 0
-    },
-    "ManyStaticRelationToOne": {
-        "Generate": true,
-        "RelationTypeCode": "DIREKTE",
-        "PercentToTargetDocument": 50,
-        "PercentToTargetSections": 50
-    },
-    "ManyRangeTargetRelationsToOneFamily": {
-        "Generate": false,
-        "RelationTypeCode": "DIREKTE",
-        "TargetStartMember": "first",
-        "TargetEndMember": "none",
-        "TargetWithinDocument": {
-            "PercentToTargetDocument": 50,
-            "PercentToTargetSections": 50
+        {
+          "NumberOfRangedTargetRelations": 10
+        },
+        {
+          "NumberOfSingleTargetRelations": 10
+        },
+        {
+          "Count": 1000
         }
-    },
-    "ManySingleTargetRelationsToOneFamily": {
-        "Generate": false,
-        "RelationTypeCode": "DIREKTE",
-        "TargetMember": "first",
-        "TargetWithinDocument": {
-            "PercentToTargetDocument": 50,
-            "PercentToTargetSections": 50
-        }
+      ]
     }
+  ]
 }

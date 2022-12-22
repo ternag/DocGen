@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Xml.Linq;
 using ConsoleApp1;
-using static System.Collections.Specialized.BitVector32;
 
 string specificationText = File.ReadAllText("./specification.json");
 
@@ -29,70 +27,27 @@ GoDoIt();
 
 void GoDoIt()
 {
-    var targetDocumentInfos = BuildTargetDocumentInfo(specification.TargetDocuments);
-    var sourceDocumentInfos = BuildSourceDocumentInfo(specification.SourceDocuments);
-    var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
+    //var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments);
+    //var sourceDocumentInfos = BuildSourceDocumentInfo(specification.SourceDocuments);
+    //var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
 
-    foreach (var doc in sourceDocumentWithStaticRelationsInfos)
-    {
-        var documentXml = generator.CreateDocument(doc);
-        var metadataXml = generator.CreateMetadata(doc);
-        SaveDocument(documentXml, metadataXml, doc);
-    }
+    //foreach (var doc in sourceDocumentWithStaticRelationsInfos)
+    //{
+    //    var documentXml = generator.CreateDocument(doc);
+    //    var metadataXml = generator.CreateMetadata(doc);
+    //    SaveDocument(documentXml, metadataXml, doc);
+    //}
 
-    foreach (var doc in targetDocumentInfos)
-    {
-        var documentXml = generator.CreateDocument(doc);
-        var metadataXml = generator.CreateMetadata(doc);
-        SaveDocument(documentXml, metadataXml, doc);
-    }
+    //foreach (var doc in targetDocumentInfos)
+    //{
+    //    var documentXml = generator.CreateDocument(doc);
+    //    var metadataXml = generator.CreateMetadata(doc);
+    //    SaveDocument(documentXml, metadataXml, doc);
+    //}
 
 }
 
-
-IEnumerable<StaticRelationInfo> BuildManyToOneStaticRelations(ManyStaticRelationToOne specification, IEnumerable<SourceDocumentInfo> sourceDocumentInfos, TargetDocumentInfo targetDocumentInfo)
-{
-    if (specification.Generate == false) yield break;
-
-    int i = 0;
-    
-    foreach (SourceDocumentInfo documentInfo in sourceDocumentInfos)
-    {
-        yield return new StaticRelationInfo(i, documentInfo, targetDocumentInfo, specification.RelationTypeCode);
-        i++;
-    }
-}
-
-
-IReadOnlyList<SourceDocumentInfo> BuildSourceDocumentInfo(SourceDocuments sourceDocumentSpecification)
-{
-    List<SourceDocumentInfo> result = new List<SourceDocumentInfo>((int)sourceDocumentSpecification.Count);
-    foreach (int i in sourceDocumentSpecification.Count.Range1())
-    {
-        var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", BuildSectionsInfo());
-        result.Add(documentInfo);
-    }
-    return result;
-}
-
-
-IEnumerable<TargetDocumentInfo> BuildTargetDocumentInfo(TargetDocuments targetDocumentSpecification)
-{
-    foreach (int i in targetDocumentSpecification.Count.Range1())
-    {
-        var documentInfo = new TargetDocumentInfo(i, $"Target document No. {i} of {targetDocumentSpecification.Count}", BuildSectionsInfo(targetDocumentSpecification));
-        yield return documentInfo;
-    }
-}
-
-IEnumerable<SectionInfo> BuildSectionsInfo(TargetDocuments specification)
-{
-    foreach (int i in specification.NumberOfSections.Range1())
-    {
-        yield return new SectionInfo($"BM{i}");
-    }
-}
 
 void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
 {
