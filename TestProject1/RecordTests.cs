@@ -1,10 +1,5 @@
 ﻿using ConsoleApp1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit.Abstractions;
 
@@ -34,10 +29,12 @@ namespace TestProject1
               ]
             }";
             
-            TargetDocument? target = JsonSerializer.Deserialize<TargetDocument>(json);
+            TargetDocumentSpec? target = JsonSerializer.Deserialize<TargetDocumentSpec>(json);
 
             target.Should().NotBeNull();
             target?.Count.Should().Be(1);
         }
+
+
     }
 }

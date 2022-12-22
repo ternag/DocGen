@@ -27,7 +27,7 @@ GoDoIt();
 
 void GoDoIt()
 {
-    //var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments);
+    var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments);
     //var sourceDocumentInfos = BuildSourceDocumentInfo(specification.SourceDocuments);
     //var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
@@ -39,12 +39,12 @@ void GoDoIt()
     //    SaveDocument(documentXml, metadataXml, doc);
     //}
 
-    //foreach (var doc in targetDocumentInfos)
-    //{
-    //    var documentXml = generator.CreateDocument(doc);
-    //    var metadataXml = generator.CreateMetadata(doc);
-    //    SaveDocument(documentXml, metadataXml, doc);
-    //}
+    foreach (var doc in targetDocumentInfos)
+    {
+        var documentXml = generator.CreateDocument(doc);
+        var metadataXml = generator.CreateMetadata(doc);
+        SaveDocument(documentXml, metadataXml, doc);
+    }
 
 }
 
@@ -56,7 +56,7 @@ void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
     document.Save(Path.Combine(documentDir, $"document.xml"));
     metadata.Save(Path.Combine(documentDir, $"metadata.xml"));
 }
-public record SectionInfo(string Id);
+public record SectionInfo(string Id, RelationsInfo relationsInfo);
 
 public abstract record DocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections)
 {
@@ -67,11 +67,11 @@ public record SourceDocumentInfo(int Id, string Title, IEnumerable<SectionInfo> 
 {
     public override string Fullname => $"SourceDocument-{Id}";
 }
-public record TargetDocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections) : DocumentInfo(Id, Title, Sections)
+public record TargetDocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections, RelationsInfo relationsInfo) : DocumentInfo(Id, Title, Sections)
 {
     public override string Fullname => $"TargetDocument-{Id}";
 }
 
 public record StaticRelationInfo(int Id, SourceDocumentInfo SourceDocument, TargetDocumentInfo TargetDocument, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");
 
-
+public record RelationsInfo(int StaticRelationCount, int RangedTargetCount, int SingleTargetCount);

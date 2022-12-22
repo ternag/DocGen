@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ConsoleApp1;
 
-namespace ConsoleApp1;
-
-internal static class Builder
+public static class Builder
 {
     public static IEnumerable<StaticRelationInfo> BuildManyToOneStaticRelations(ManyStaticRelationToOne specification, IEnumerable<SourceDocumentInfo> sourceDocumentInfos, TargetDocumentInfo targetDocumentInfo)
     {
@@ -33,33 +27,32 @@ internal static class Builder
     //    return result;
     //}
 
-
-    public static TargetDocumentInfo BuildTargetDocumentInfo(TargetDocument targetDocument, int documentId, int totalNumberOfTargetDocuments)
+    public static IEnumerable<TargetDocumentInfo> BuildTargetDocuments(IReadOnlyList<TargetDocumentSpec> targetDocumentsSpecification)
     {
-        var title = targetDocument.Title.Replace("{x}", documentId.ToString());
-        return new TargetDocumentInfo(documentId, title, BuildSectionsInfo(targetDocument.Sections));
+        int documentId = 0;
+        foreach (TargetDocumentSpec targetDocument in targetDocumentsSpecification)
+        {
+            yield return BuildTargetDocumentInfo(targetDocument, documentId, 0);
+            documentId++;
+        }
     }
 
-    public static IEnumerable<SectionInfo> BuildSectionsInfo(IReadOnlyList<Section> sections)
+    public static TargetDocumentInfo BuildTargetDocumentInfo(TargetDocumentSpec targetDocumentSpec, int documentId, int totalNumberOfTargetDocuments)
+    {
+        var title = targetDocumentSpec.Title.Replace("{x}", documentId.ToString());
+        return new TargetDocumentInfo(documentId, title, BuildSectionsInfo(targetDocumentSpec.SectionSpecs), new RelationsInfo(targetDocumentSpec.NumberOfStaticRelations, targetDocumentSpec.NumberOfRangedTargetRelations, targetDocumentSpec.NumberOfSingleTargetRelations));
+    }
+
+    public static IEnumerable<SectionInfo> BuildSectionsInfo(IReadOnlyList<SectionSpec> sections)
     {
         int sectionId = 0;
         foreach (var section in sections)
         {
-            foreach (var i in section.Count.Range0())
+            foreach (var unused in section.Count.Range0())
             {
-                yield return new SectionInfo($"BM{sectionId}");
+                yield return new SectionInfo($"BM{sectionId}", new RelationsInfo(section.NumberOfStaticRelations, section.NumberOfRangedTargetRelations, section.NumberOfSingleTargetRelations));
                 sectionId++;
             }
-        }
-    }
-
-    public static IEnumerable<TargetDocumentInfo> BuildTargetDocuments(IReadOnlyList<TargetDocument> targetDocumentsSpecification)
-    {
-        int documentId = 0;
-        foreach (TargetDocument targetDocument in targetDocumentsSpecification)
-        {
-            yield return BuildTargetDocumentInfo(targetDocument, documentId, 0);
-            documentId++;
         }
     }
 }
