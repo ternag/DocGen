@@ -18,7 +18,7 @@ GoDoIt();
 - Fill in blanks in metadata file.
 - Add relation(s) to source documents
 - Add NumberOfSections to a document
-- Write write outgoing relations in section 1 of the source document.
+- Write outgoing relations in section 1 of the source document.
 - zip and send documents to Fundament
 - Build document family
 - Build DynamicRelations to target family
@@ -28,20 +28,26 @@ GoDoIt();
 void GoDoIt()
 {
     var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments);
-    //var sourceDocumentInfos = BuildSourceDocumentInfo(specification.SourceDocuments);
+    var sourceDocumentInfos = Builder.BuildSourceDocuments(specification.SourceDocuments);
     //var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
+    StaticRelationBuilder.Create(targetDocumentInfos, sourceDocumentInfos);
 
-    //foreach (var doc in sourceDocumentWithStaticRelationsInfos)
-    //{
-    //    var documentXml = generator.CreateDocument(doc);
-    //    var metadataXml = generator.CreateMetadata(doc);
-    //    SaveDocument(documentXml, metadataXml, doc);
-    //}
+    foreach (SourceDocumentInfo doc in sourceDocumentInfos)
+    {
+        var documentXml = generator.CreateSourceDocuments(doc);
+        var metadataXml = generator.CreateMetadata(doc);
+        foreach (var relation in doc.Relations.StaticRelations)
+        {
+            metadataXml.AddStaticRelation(relation);
+        }
+
+        SaveDocument(documentXml, metadataXml, doc);
+    }
 
     foreach (var doc in targetDocumentInfos)
     {
-        var documentXml = generator.CreateDocument(doc);
+        var documentXml = generator.CreateTargetDocuments(doc);
         var metadataXml = generator.CreateMetadata(doc);
         SaveDocument(documentXml, metadataXml, doc);
     }
@@ -56,22 +62,3 @@ void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
     document.Save(Path.Combine(documentDir, $"document.xml"));
     metadata.Save(Path.Combine(documentDir, $"metadata.xml"));
 }
-public record SectionInfo(string Id, RelationsInfo relationsInfo);
-
-public abstract record DocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections)
-{
-    public abstract string Fullname { get; }
-}
-
-public record SourceDocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections) : DocumentInfo(Id, Title, Sections)
-{
-    public override string Fullname => $"SourceDocument-{Id}";
-}
-public record TargetDocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections, RelationsInfo relationsInfo) : DocumentInfo(Id, Title, Sections)
-{
-    public override string Fullname => $"TargetDocument-{Id}";
-}
-
-public record StaticRelationInfo(int Id, SourceDocumentInfo SourceDocument, TargetDocumentInfo TargetDocument, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");
-
-public record RelationsInfo(int StaticRelationCount, int RangedTargetCount, int SingleTargetCount);

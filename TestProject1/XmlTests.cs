@@ -22,8 +22,8 @@ namespace TestProject1
         {
             XDocumentCreator sut = new XDocumentCreator();
 
-            var sourceDocument = new SourceDocumentInfo(1, "test", Array.Empty<SectionInfo>());
-            var targetDocument = new TargetDocumentInfo(5, "Target5", new List<SectionInfo>(), new RelationsInfo(0,0,0));
+            var sourceDocument = new SourceDocumentInfo(1, "test", Array.Empty<SectionInfo>(), new Relations());
+            var targetDocument = new TargetDocumentInfo(5, "Target5", new List<SectionInfo>(),new List<RelationSpec>(), new TmpRelationsInfo(0,0));
 
             var staticRelationInfo = new StaticRelationInfo(12,
                 sourceDocument,

@@ -16,16 +16,16 @@ public static class Builder
     }
 
 
-    //public static IReadOnlyList<SourceDocumentInfo> BuildSourceDocumentInfo(SourceDocuments sourceDocumentSpecification)
-    //{
-    //    List<SourceDocumentInfo> result = new List<SourceDocumentInfo>((int)sourceDocumentSpecification.Count);
-    //    foreach (int i in sourceDocumentSpecification.Count.Range1())
-    //    {
-    //        var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", BuildSectionsInfo());
-    //        result.Add(documentInfo);
-    //    }
-    //    return result;
-    //}
+    public static IReadOnlyList<SourceDocumentInfo> BuildSourceDocuments(SourceDocuments sourceDocumentSpecification)
+    {
+        List<SourceDocumentInfo> result = new List<SourceDocumentInfo>((int)sourceDocumentSpecification.Count);
+        foreach (int i in sourceDocumentSpecification.Count.Range1())
+        {
+            var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", BuildSectionsInfo(sourceDocumentSpecification.SectionSpecs), new Relations());
+            result.Add(documentInfo);
+        }
+        return result;
+    }
 
     public static IEnumerable<TargetDocumentInfo> BuildTargetDocuments(IReadOnlyList<TargetDocumentSpec> targetDocumentsSpecification)
     {
@@ -40,7 +40,7 @@ public static class Builder
     public static TargetDocumentInfo BuildTargetDocumentInfo(TargetDocumentSpec targetDocumentSpec, int documentId, int totalNumberOfTargetDocuments)
     {
         var title = targetDocumentSpec.Title.Replace("{x}", documentId.ToString());
-        return new TargetDocumentInfo(documentId, title, BuildSectionsInfo(targetDocumentSpec.SectionSpecs), new RelationsInfo(targetDocumentSpec.NumberOfStaticRelations, targetDocumentSpec.NumberOfRangedTargetRelations, targetDocumentSpec.NumberOfSingleTargetRelations));
+        return new TargetDocumentInfo(documentId, title, BuildSectionsInfo(targetDocumentSpec.SectionSpecs), targetDocumentSpec.Relations, new TmpRelationsInfo(targetDocumentSpec.NumberOfRangedTargetRelations, targetDocumentSpec.NumberOfSingleTargetRelations));
     }
 
     public static IEnumerable<SectionInfo> BuildSectionsInfo(IReadOnlyList<SectionSpec> sections)
@@ -50,7 +50,7 @@ public static class Builder
         {
             foreach (var unused in section.Count.Range0())
             {
-                yield return new SectionInfo($"BM{sectionId}", new RelationsInfo(section.NumberOfStaticRelations, section.NumberOfRangedTargetRelations, section.NumberOfSingleTargetRelations));
+                yield return new SectionInfo($"s{sectionId}", new TmpRelationsInfo(section.NumberOfRangedTargetRelations, section.NumberOfSingleTargetRelations));
                 sectionId++;
             }
         }

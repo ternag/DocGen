@@ -2,7 +2,7 @@
 
 namespace ConsoleApp1;
 
-public static class Extensions
+public static class XmlExtensions
 {
     public static XElement? GetElementById(this XDocument document, XName id)
     {
@@ -19,8 +19,8 @@ public static class Extensions
 
     public static void AddClassification(this XDocument document, string taxonomyName, string taxonKey)
     {
-        var ns = document.Root.GetDefaultNamespace();
-        var classifications = document.Root.Descendants(ns + "Classifications").SingleOrDefault();
+        XNamespace ns = document.Root.GetDefaultNamespace();
+        XElement? classifications = document.Root.Descendants(ns + "Classifications").SingleOrDefault();
         XElement classification = new XElement(ns + "Classification", new XAttribute("TaxonomyName", taxonomyName), new XAttribute("TaxonKey", taxonKey));
         if(classifications != null) classifications.Add(classification);
     }

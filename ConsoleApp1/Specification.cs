@@ -1,6 +1,4 @@
-﻿// Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
-
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ConsoleApp1;
 
@@ -32,12 +30,7 @@ public record ManyStaticRelationToOne(
 
 public record SourceDocuments(
     [property: JsonPropertyName("Count")] int Count,
-    [property: JsonPropertyName("NumberOfSections")] int NumberOfSections
-);
-
-public record TargetDocuments(
-    [property: JsonPropertyName("Count")] int Count,
-    [property: JsonPropertyName("NumberOfSections")] int NumberOfSections
+    [property: JsonPropertyName("Sections")] IReadOnlyList<SectionSpec> SectionSpecs
 );
 
 public record TargetFamilies(
@@ -57,14 +50,14 @@ public record TargetWithinDocument(
 // Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
 public record Document(
     [property: JsonPropertyName("Name")] string Name,
-    [property: JsonPropertyName("Relations")] IReadOnlyList<Relation> Relations,
+    [property: JsonPropertyName("Relations")] IReadOnlyList<RelationSpec> Relations,
     [property: JsonPropertyName("Sections")] IReadOnlyList<SectionSpec> Sections
 );
 
-public record Relation(
-    [property: JsonPropertyName("Count")] int Count,
-    [property: JsonPropertyName("RelationKind")] string RelationKind,
-    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode
+public record RelationSpec(
+    [property: JsonPropertyName("RelationKind")] RelationKind RelationKind,
+    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode,
+    [property: JsonPropertyName("Count")] int Count = 1
 );
 
 public record Specification(
@@ -88,9 +81,9 @@ public record SectionSpec
 public record TargetDocumentSpec
 (
     [property: JsonPropertyName("Sections")] IReadOnlyList<SectionSpec> SectionSpecs,
+    [property: JsonPropertyName("Relations")] IReadOnlyList<RelationSpec> Relations = default!,
     [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("Title")] string Title  = "Target document",
-    [property: JsonPropertyName("NumberOfStaticRelations")] int NumberOfStaticRelations = 0,
     [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0 ,
     [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0 
 );
@@ -104,3 +97,10 @@ public record TargetFamily(
     [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 0
 );
 
+public enum RelationKind
+{
+    None = 0,
+    Static = 1,
+    SingleTarget = 2,
+    RangedTarget = 3
+}

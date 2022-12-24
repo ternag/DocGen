@@ -1,10 +1,27 @@
 {
+  "SourceDocuments": {
+    "Count": 100,
+    "Sections": [
+      {
+        "Count": 1
+      }
+    ]
+  },
   "TargetDocuments": [
     {
       "Title": "Test many relations to this document",
-      "NumberOfStaticRelations": 6000,
-      "NumberOfRangedTargetRelations": 1,
-      "NumberOfSingleTargetRelations": 1,
+      "Relations": [
+        {
+          "RelationKind": "static",
+          "Count": 3000,
+          "RelationTypeCode": "DIREKTE"
+        },
+        {
+          "RelationKind": "static",
+          "Count": 3000,
+          "RelationTypeCode": "OTHER"
+        }
+      ],
       "Sections": [
         {
           "NumberOfStaticRelations": 500,
