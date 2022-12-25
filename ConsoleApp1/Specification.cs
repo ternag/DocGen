@@ -97,6 +97,7 @@ public record TargetFamily(
     [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 0
 );
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum RelationKind
 {
     None = 0,
