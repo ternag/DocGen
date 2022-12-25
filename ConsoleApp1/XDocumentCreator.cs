@@ -20,7 +20,7 @@ public class XDocumentCreator
         var element = new XElement(ns + "section",
             new XAttribute("id", "doc-info"),
             new XElement(ns + "h1", $"Document '{info.Fullname}'"),
-            GetRelationStats(info.relationsInfo, ns));
+            GetRelationStats(info.RelationsInfo, ns));
 
         article.Add(element);
 
@@ -64,7 +64,7 @@ public class XDocumentCreator
             new XAttribute("id",
                 sectionInfo.Id),
             new XElement(ns + "h1", $"Section id='{sectionInfo.Id}'"),
-            new XElement(ns + "p", GetRelationStats(sectionInfo.relationsInfo, ns)),
+            new XElement(ns + "p", GetRelationStats(sectionInfo.RelationsInfo, ns)),
             new XElement(ns + "p", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."));
         return element;
     }

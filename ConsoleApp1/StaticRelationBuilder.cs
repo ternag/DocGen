@@ -6,7 +6,7 @@ public static class StaticRelationBuilder
     {
         foreach(var targetDocument in targetDocumentInfos)
         {
-            IEnumerable<RelationSpec> staticRelationSpec = targetDocument.relationsSpec.Where(r => r.RelationKind == RelationKind.Static);
+            IEnumerable<RelationSpec> staticRelationSpec = targetDocument.RelationsSpec.Where(r => r.RelationKind == RelationKind.Static);
             foreach (var item in staticRelationSpec)
             {
                 CreateStaticRelations(targetDocument, sourceDocuments, item.Count, item.RelationTypeCode);
@@ -28,7 +28,7 @@ public static class StaticRelationBuilder
                 s.Reset();
                 s.MoveNext();
             }
-            s.Current.Relations.StaticRelations.Add(new StaticRelationInfo(i, s.Current, targetDocument, relationTypeCode));
+            s.Current.Relations.StaticRelations.Add(new StaticRelationInfo(i, targetDocument, relationTypeCode));
         }
     }
 }

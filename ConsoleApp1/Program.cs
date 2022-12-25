@@ -15,9 +15,9 @@ var generator = new XDocumentCreator();
 
 GoDoIt();
 
-/* TODO
+/* To do:
+X Add static relation(s) to source documents
 - Fill in blanks in metadata file.
-- Add relation(s) to source documents
 - Add NumberOfSections to a document
 - Write outgoing relations in section 1 of the source document.
 - zip and send documents to Fundament
@@ -29,7 +29,7 @@ GoDoIt();
 void GoDoIt()
 {
     //specification = SetDefaults(specification);
-    var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments);
+    var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments).ToList();
     var sourceDocumentInfos = Builder.BuildSourceDocuments(specification.SourceDocuments);
     //var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
@@ -67,7 +67,7 @@ Specification SetDefaults(Specification specification)
 
 void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
 {
-    string documentDir = Path.Combine(outputDir, $"{info.Fullname}");
+    string documentDir = Path.Combine(outputDir, $"{info.Fullname}-{info.Id}");
     Directory.CreateDirectory(documentDir);
     document.Save(Path.Combine(documentDir, $"document.xml"));
     metadata.Save(Path.Combine(documentDir, $"metadata.xml"));

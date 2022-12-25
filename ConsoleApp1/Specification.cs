@@ -30,7 +30,8 @@ public record ManyStaticRelationToOne(
 
 public record SourceDocuments(
     [property: JsonPropertyName("Count")] int Count = 1,
-    IReadOnlyList<SectionSpec> SectionSpecs = default!
+    IReadOnlyList<SectionSpec> SectionSpecs = default!,
+    [property: JsonPropertyName("Fullname")] string Fullname = "SourceDocument"
 )
 {
     [property: JsonPropertyName("Sections")] 
@@ -78,7 +79,8 @@ public record TargetDocumentSpec
     [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("Title")] string Title = "Target document",
     [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0,
-    [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0
+    [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0,
+    [property: JsonPropertyName("Fullname")] string Fullname = "TargetDocument"
 )
 {
     [property: JsonPropertyName("Sections")] 
