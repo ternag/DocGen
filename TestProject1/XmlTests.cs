@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoFixture;
 using ConsoleApp1;
 using Xunit.Abstractions;
 
@@ -17,6 +18,7 @@ namespace TestProject1
             _output = output;
         }
 
+        //[Fact(Skip = "no assert - only output")]
         [Fact]
         public void Metadata()
         {

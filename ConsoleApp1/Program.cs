@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Text.Json;
 using System.Xml.Linq;
 using ConsoleApp1;
 
@@ -27,6 +28,7 @@ GoDoIt();
 
 void GoDoIt()
 {
+    //specification = SetDefaults(specification);
     var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments);
     var sourceDocumentInfos = Builder.BuildSourceDocuments(specification.SourceDocuments);
     //var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
@@ -54,6 +56,14 @@ void GoDoIt()
 
 }
 
+Specification SetDefaults(Specification specification)
+{
+    return specification with 
+    {
+        SourceDocuments = specification.SourceDocuments ?? new SourceDocuments(),
+        TargetDocuments = specification.TargetDocuments ?? Array.Empty<TargetDocumentSpec>(),
+    };
+}
 
 void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
 {

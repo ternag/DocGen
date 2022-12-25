@@ -29,9 +29,13 @@ public record ManyStaticRelationToOne(
 );
 
 public record SourceDocuments(
-    [property: JsonPropertyName("Count")] int Count,
-    [property: JsonPropertyName("Sections")] IReadOnlyList<SectionSpec> SectionSpecs
-);
+    [property: JsonPropertyName("Count")] int Count = 1,
+    IReadOnlyList<SectionSpec> SectionSpecs = default!
+)
+{
+    [property: JsonPropertyName("Sections")] 
+    public IReadOnlyList<SectionSpec> SectionSpecs { get; init; } = SectionSpecs ?? new List<SectionSpec>() { new SectionSpec()};
+};
 
 public record TargetFamilies(
     [property: JsonPropertyName("Count")] DocumentCount Count,
@@ -47,50 +51,45 @@ public record TargetWithinDocument(
     [property: JsonPropertyName("PercentToTargetSections")] Percent PercentToTargetSections
 );
 
-// Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
-public record Document(
-    [property: JsonPropertyName("Name")] string Name,
-    [property: JsonPropertyName("Relations")] IReadOnlyList<RelationSpec> Relations,
-    [property: JsonPropertyName("Sections")] IReadOnlyList<SectionSpec> Sections
-);
-
 public record RelationSpec(
-    [property: JsonPropertyName("RelationKind")] RelationKind RelationKind,
-    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode,
+    [property: JsonPropertyName("RelationKind")] RelationKind RelationKind = RelationKind.Static,
+    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE",
     [property: JsonPropertyName("Count")] int Count = 1
 );
 
 public record Specification(
-    [property: JsonPropertyName("SourceDocuments")] SourceDocuments SourceDocuments,
-    [property: JsonPropertyName("TargetFamilies")] TargetFamilies TargetFamilies,
-    [property: JsonPropertyName("ManyStaticRelationToOne")] ManyStaticRelationToOne ManyStaticRelationToOne,
-    [property: JsonPropertyName("ManyRangeTargetRelationsToOneFamily")] ManyRangeTargetRelationsToOneFamily ManyRangeTargetRelationsToOneFamily,
-    [property: JsonPropertyName("ManySingleTargetRelationsToOneFamily")] ManySingleTargetRelationsToOneFamily ManySingleTargetRelationsToOneFamily,
-    [property: JsonPropertyName("TargetDocuments")] IReadOnlyList<TargetDocumentSpec> TargetDocuments,
-    [property: JsonPropertyName("TargetFamily")] TargetFamily TargetFamily
+    [property: JsonPropertyName("SourceDocuments")] SourceDocuments SourceDocuments = default!,
+    [property: JsonPropertyName("TargetFamilies")] TargetFamilies TargetFamilies = default!,
+    [property: JsonPropertyName("TargetDocuments")] IReadOnlyList<TargetDocumentSpec> TargetDocuments = default!
 );
 
 public record SectionSpec
 (
     [property: JsonPropertyName("Count")] int Count = 1,
-    [property: JsonPropertyName("NumberOfStaticRelations")] int NumberOfStaticRelations = 0,
+    [property: JsonPropertyName("NumberOfStaticRelations")] int NumberOfStaticRelations = 1,
     [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0,
     [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0
 );
 
 public record TargetDocumentSpec
 (
-    [property: JsonPropertyName("Sections")] IReadOnlyList<SectionSpec> SectionSpecs,
-    [property: JsonPropertyName("Relations")] IReadOnlyList<RelationSpec> Relations = default!,
+    IReadOnlyList<SectionSpec> SectionSpecs = default!,
+    IReadOnlyList<RelationSpec> Relations = default!,
     [property: JsonPropertyName("Count")] int Count = 1,
-    [property: JsonPropertyName("Title")] string Title  = "Target document",
-    [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0 ,
-    [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0 
-);
+    [property: JsonPropertyName("Title")] string Title = "Target document",
+    [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0,
+    [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0
+)
+{
+    [property: JsonPropertyName("Sections")] 
+    public IReadOnlyList<SectionSpec> SectionSpecs { get; init; } = SectionSpecs ?? new[] { new SectionSpec() };
+
+    [property: JsonPropertyName("Relations")]
+    public IReadOnlyList<RelationSpec> Relations { get; init; } = Relations ?? new[] { new RelationSpec() };
+};
 
 public record TargetFamily(
     [property: JsonPropertyName("FamilyName")] string FamilyName,
-    [property: JsonPropertyName("Document")] Document Document,
     [property: JsonPropertyName("NumberOfHistoricDocuments")] int NumberOfHistoricDocuments = 0,
     [property: JsonPropertyName("NumberOfEffectiveDocuments")] int NumberOfEffectiveDocuments = 0,
     [property: JsonPropertyName("NumberOfFutureDocuments")] int NumberOfFutureDocuments = 0,
