@@ -2,16 +2,15 @@
 using System.Text.Json;
 using System.Xml.Linq;
 using ConsoleApp1;
+using ConsoleApp1.A.ParseSpecification;
+using ConsoleApp1.B.BuildModel;
+using ConsoleApp1.C.CreateDocuments;
 
 string specificationText = File.ReadAllText("./specification.json");
-
-Specification? specification = JsonSerializer.Deserialize<Specification>(specificationText);
-if (specification == null) throw new NullReferenceException($"{nameof(specification)} is null");
+Specification? specification = SpecificationLoader.Parse(specificationText);
 
 string outputDir = "/temp/GenerateDocPoc/output";
 Directory.CreateDirectory(outputDir);
-
-var generator = new XDocumentCreator();
 
 GoDoIt();
 
@@ -28,10 +27,10 @@ X Add static relation(s) to source documents
 
 void GoDoIt()
 {
-    //specification = SetDefaults(specification);
+    var generator = new XDocumentCreator();
+
     var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments).ToList();
     var sourceDocumentInfos = Builder.BuildSourceDocuments(specification.SourceDocuments);
-    //var sourceDocumentWithStaticRelationsInfos = BuildManyToOneStaticRelations(specification.ManyStaticRelationToOne, sourceDocumentInfos, targetDocumentInfos.First());
 
     StaticRelationBuilder.Create(targetDocumentInfos, sourceDocumentInfos);
 
@@ -54,15 +53,6 @@ void GoDoIt()
         SaveDocument(documentXml, metadataXml, doc);
     }
 
-}
-
-Specification SetDefaults(Specification specification)
-{
-    return specification with 
-    {
-        SourceDocuments = specification.SourceDocuments ?? new SourceDocuments(),
-        TargetDocuments = specification.TargetDocuments ?? Array.Empty<TargetDocumentSpec>(),
-    };
 }
 
 void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)

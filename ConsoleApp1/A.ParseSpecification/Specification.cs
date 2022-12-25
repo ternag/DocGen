@@ -1,6 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.A.ParseSpecification;
 
 public record FamilyDocument(
     [property: JsonPropertyName("NumberOfSections")] NumberOfSections NumberOfSections
@@ -98,11 +99,12 @@ public record TargetFamily(
     [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 0
 );
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum RelationKind
+public static class SpecificationLoader
 {
-    None = 0,
-    Static = 1,
-    SingleTarget = 2,
-    RangedTarget = 3
+    public static Specification Parse(string specificationText)
+    {
+        Specification? specification = JsonSerializer.Deserialize<Specification>(specificationText);
+        if (specification == null) throw new NullReferenceException($"{nameof(specification)} is null");
+        return specification;
+    }
 }

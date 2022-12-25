@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
+using ConsoleApp1.B.BuildModel;
 
-namespace ConsoleApp1;
+namespace ConsoleApp1.C.CreateDocuments;
 
 public class XDocumentCreator
 {

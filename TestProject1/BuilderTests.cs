@@ -1,4 +1,6 @@
 ﻿using ConsoleApp1;
+using ConsoleApp1.A.ParseSpecification;
+using ConsoleApp1.B.BuildModel;
 using FluentAssertions;
 using Xunit.Abstractions;
 

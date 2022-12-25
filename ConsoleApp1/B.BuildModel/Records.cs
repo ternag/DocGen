@@ -1,5 +1,6 @@
-﻿
-using ConsoleApp1;
+﻿using ConsoleApp1.A.ParseSpecification;
+
+namespace ConsoleApp1.B.BuildModel;
 
 public record SectionInfo(string Id, TmpRelationsInfo RelationsInfo);
 

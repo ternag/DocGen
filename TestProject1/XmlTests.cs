@@ -1,5 +1,7 @@
 ﻿using AutoFixture;
 using ConsoleApp1;
+using ConsoleApp1.B.BuildModel;
+using ConsoleApp1.C.CreateDocuments;
 using Xunit.Abstractions;
 
 namespace TestProject1;

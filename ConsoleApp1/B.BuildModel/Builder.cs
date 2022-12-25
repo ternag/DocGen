@@ -1,4 +1,7 @@
-﻿namespace ConsoleApp1;
+﻿using ConsoleApp1.A.ParseSpecification;
+using ConsoleApp1.C.CreateDocuments;
+
+namespace ConsoleApp1.B.BuildModel;
 
 public static class Builder
 {
