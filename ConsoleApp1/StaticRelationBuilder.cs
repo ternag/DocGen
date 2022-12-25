@@ -31,7 +31,7 @@ public static class StaticRelationBuilder
                 s.Reset();
                 s.MoveNext();
             }
-            s.Current.Relations.StaticRelations.Add(new StaticRelationInfo(i, targetDocument, relationTypeCode));
+            s.Current.Relations.StaticRelations.Add(new StaticRelationInfo(targetDocument, relationTypeCode));
         }
     }
 }

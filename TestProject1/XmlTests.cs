@@ -26,7 +26,7 @@ public class XmlTests
         var sourceDocument = fixture.Create<SourceDocumentInfo>();
         var targetDocument = fixture.Create<TargetDocumentInfo>();
 
-        var staticRelationInfo = new StaticRelationInfo(12,
+        var staticRelationInfo = new StaticRelationInfo(
             targetDocument,
             "DIREKTE",
             "sourceBM",

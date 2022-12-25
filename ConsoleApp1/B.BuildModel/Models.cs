@@ -16,7 +16,7 @@ public record TargetDocumentInfo(int Id,
     Sections,
     Fullname);
 
-public record StaticRelationInfo(int Id,
+public record StaticRelationInfo(
     TargetDocumentInfo TargetDocument,
     string RelationTypeCode,
     string SourceBookmark = "",
@@ -35,5 +35,5 @@ public record SourceDocumentInfo(int Id,
 
 public class Relations
 {
-    public List<StaticRelationInfo> StaticRelations { get; init; } = new List<StaticRelationInfo>();
+    public List<StaticRelationInfo> StaticRelations { get; } = new();
 }
