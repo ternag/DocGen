@@ -26,9 +26,11 @@ public static class XmlMetadataExtensions
 
     public static void AddStaticRelation(this XDocument document, string relationTypeCode, string targetFullname, string sourceBookmark = "", string targetBookmark = "")
     {
-        var ns = document.Root?.GetDefaultNamespace();
+        if (document.Root == null) throw new Exception("Root element not found");
+        var ns = document.Root?.GetDefaultNamespace() ?? XNamespace.None;
+        
         var relations = document.Root?.Descendants(ns + "Relations").SingleOrDefault();
-
+        
         var relation = new XElement(ns + "DocumentDocumentRelation",
             new XAttribute("RelationTypeCode", relationTypeCode),
             new XAttribute("TargetFullName", targetFullname));
