@@ -44,7 +44,6 @@ public class RecordTests
         sut.SectionSpecs.Should().NotBeNull();
         sut.SectionSpecs.Count.Should().Be(1);
         sut.SectionSpecs[0].Count.Should().Be(1);
-        sut.SectionSpecs[0].NumberOfStaticRelations.Should().Be(1);
     }
 
     [Fact]
@@ -56,7 +55,6 @@ public class RecordTests
         sut.SectionSpecs.Should().NotBeNull();
         sut.SectionSpecs.Count.Should().Be(1);
         sut.SectionSpecs[0].Count.Should().Be(1);
-        sut.SectionSpecs[0].NumberOfStaticRelations.Should().Be(1);
         
         // Relations
         sut.Relations.Should().NotBeNull();

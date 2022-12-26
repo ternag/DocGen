@@ -53,34 +53,32 @@ public record TargetWithinDocument(
 );
 
 public record RelationSpec(
+    [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("RelationKind")] RelationKind RelationKind = RelationKind.Static,
-    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE",
-    [property: JsonPropertyName("Count")] int Count = 1
+    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE"
 );
 
 public record Specification(
     [property: JsonPropertyName("SourceDocuments")] SourceDocuments SourceDocuments = default!,
-    [property: JsonPropertyName("TargetFamilies")] TargetFamilies TargetFamilies = default!,
     [property: JsonPropertyName("TargetDocuments")] IReadOnlyList<TargetDocumentSpec> TargetDocuments = default!
 );
 
 public record SectionSpec
 (
     [property: JsonPropertyName("Count")] int Count = 1,
-    [property: JsonPropertyName("NumberOfStaticRelations")] int NumberOfStaticRelations = 1,
-    [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0,
-    [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0
-);
+    IReadOnlyList<RelationSpec> Relations = default!
+){
+    [property: JsonPropertyName("Relations")]
+    public IReadOnlyList<RelationSpec> Relations { get; init; } = Relations ?? new[] { new RelationSpec() };
+};
 
 public record TargetDocumentSpec
 (
-    IReadOnlyList<SectionSpec> SectionSpecs = default!,
-    IReadOnlyList<RelationSpec> Relations = default!,
     [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("Title")] string Title = "Target document",
-    [property: JsonPropertyName("NumberOfRangedTargetRelations")] int NumberOfRangedTargetRelations = 0,
-    [property: JsonPropertyName("NumberOfSingleTargetRelations")] int NumberOfSingleTargetRelations = 0,
-    [property: JsonPropertyName("Fullname")] string Fullname = "TargetDocument"
+    [property: JsonPropertyName("Fullname")] string Fullname = "TargetDocument",
+    IReadOnlyList<SectionSpec> SectionSpecs = default!,
+    IReadOnlyList<RelationSpec> Relations = default!
 )
 {
     [property: JsonPropertyName("Sections")] 

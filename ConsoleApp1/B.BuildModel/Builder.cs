@@ -10,7 +10,7 @@ public static class Builder
         List<SourceDocumentInfo> result = new List<SourceDocumentInfo>((int)sourceDocumentSpecification.Count);
         foreach (int i in sourceDocumentSpecification.Count.Range1())
         {
-            var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", sourceDocumentSpecification.Fullname, BuildSectionsInfo(sourceDocumentSpecification.SectionSpecs), new Relations());
+            var documentInfo = new SourceDocumentInfo(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", sourceDocumentSpecification.Fullname, BuildSourceSectionsInfo(sourceDocumentSpecification.SectionSpecs), new Relations());
             result.Add(documentInfo);
         }
         return result;
@@ -29,17 +29,31 @@ public static class Builder
     public static TargetDocumentInfo BuildTargetDocumentInfo(TargetDocumentSpec targetDocumentSpec, int documentId, int totalNumberOfTargetDocuments)
     {
         var title = targetDocumentSpec.Title.Replace("{x}", documentId.ToString());
-        return new TargetDocumentInfo(documentId, title, targetDocumentSpec.Fullname, BuildSectionsInfo(targetDocumentSpec.SectionSpecs), targetDocumentSpec.Relations, new TmpRelationsInfo(targetDocumentSpec.NumberOfRangedTargetRelations, targetDocumentSpec.NumberOfSingleTargetRelations));
+        return new TargetDocumentInfo(documentId, title, targetDocumentSpec.Fullname, BuildTargetSectionsInfo(targetDocumentSpec.SectionSpecs), targetDocumentSpec.Relations);
     }
 
-    public static IEnumerable<SectionInfo> BuildSectionsInfo(IReadOnlyList<SectionSpec> sections)
+    private static IEnumerable<TargetSectionInfo> BuildTargetSectionsInfo(IReadOnlyList<SectionSpec> sections)
     {
         int sectionId = 0;
         foreach (var section in sections)
         {
-            foreach (var unused in section.Count.Range0())
+            foreach (var _ in section.Count.Range0())
             {
-                yield return new SectionInfo($"s{sectionId}", new TmpRelationsInfo(section.NumberOfRangedTargetRelations, section.NumberOfSingleTargetRelations));
+                yield return new TargetSectionInfo($"s{sectionId}", section.Relations);
+                sectionId++;
+            }
+        }
+    }
+
+    public static IEnumerable<SourceSectionInfo> BuildSourceSectionsInfo(IReadOnlyList<SectionSpec> sections)
+    {
+        int sectionId = 0;
+        foreach (var section in sections)
+        {
+            foreach (var _ in section.Count.Range0())
+            {
+                // TODO Build proper relations
+                yield return new SourceSectionInfo($"s{sectionId}", new Relations());
                 sectionId++;
             }
         }

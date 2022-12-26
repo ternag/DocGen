@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using ConsoleApp1.A.ParseSpecification;
 using ConsoleApp1.B.BuildModel;
 
 namespace ConsoleApp1.C.CreateDocuments;
@@ -21,13 +22,13 @@ public class XDocumentCreator
         var element = new XElement(ns + "section",
             new XAttribute("id", "doc-info"),
             new XElement(ns + "h1", $"Document '{info.Fullname}'"),
-            GetRelationStats(info.RelationsInfo, ns));
+            GetRelationStats(info.RelationsSpec, ns, "top of document"));
 
         article.Add(element);
 
         foreach (var sectionInfo in info.Sections)
         {
-            article.Add(CreateSection(sectionInfo, ns));
+            article.Add(CreateTargetSection(sectionInfo, ns));
         }
 
         return document;
@@ -43,12 +44,18 @@ public class XDocumentCreator
 
         XElement? article = GetArticle(document, ns);
 
+        // TODO add sections
+        
         return document;
     }
 
-    private static XElement GetRelationStats(TmpRelationsInfo info, XNamespace ns)
+    public static XElement GetRelationStats(IReadOnlyList<RelationSpec> specifications, XNamespace ns, string context)
     {
-        return new XElement(ns + "p", $"Relation stats for document: Static ?, Ranged {info.RangedTargetCount}, Single {info.SingleTargetCount}");
+        var staticCount = specifications.Where(x => x.RelationKind == RelationKind.Static).Sum(x => x.Count);
+        var singleCount = specifications.Where(x => x.RelationKind == RelationKind.SingleTarget).Sum(x => x.Count);
+        var rangedCount = specifications.Where(x => x.RelationKind == RelationKind.RangedTarget).Sum(x => x.Count);
+
+        return new XElement(ns + "p", $"Relation stats for {context}: Static {staticCount}, Single target {singleCount}, Ranged target {rangedCount}");
     }
 
     private static XElement GetArticle(XDocument document, XNamespace ns)
@@ -59,13 +66,13 @@ public class XDocumentCreator
         return article;
     }
 
-    public XElement CreateSection(SectionInfo sectionInfo, XNamespace ns)
+    public XElement CreateTargetSection(TargetSectionInfo sectionInfo, XNamespace ns)
     {
         var element = new XElement(ns + "section",
             new XAttribute("id",
                 sectionInfo.Id),
             new XElement(ns + "h1", $"Section id='{sectionInfo.Id}'"),
-            new XElement(ns + "p", GetRelationStats(sectionInfo.RelationsInfo, ns)),
+            GetRelationStats(sectionInfo.RelationsSpec, ns, $"section"),
             new XElement(ns + "p", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."));
         return element;
     }
@@ -73,8 +80,8 @@ public class XDocumentCreator
     public XDocument CreateMetadata(DocumentInfo info)
     {
         var metadata = new XDocument(_metadataTemplateXml);
-        var ns = metadata.Root.GetDefaultNamespace();
-        var mf = metadata.Root.GetNamespaceOfPrefix("mf");
+        var ns = metadata.Root?.GetDefaultNamespace() ?? "urn:schultz.dk:rhinestone:1.0:metadata:1.0";
+        var mf = metadata.Root?.GetNamespaceOfPrefix("mf") ?? "urn:schultz.dk:mayflower:1.0:metadata:1.0";
         metadata.SetElementValue(mf + "publicid", $"public-{info.Id}");
         metadata.SetElementValue(mf + "date_effect", DateTime.Now.ToString("s"));
         metadata.Descendants(mf + "date_expired").Remove();
@@ -83,6 +90,4 @@ public class XDocumentCreator
         metadata.AddClassification("DocumentType", "Love");
         return metadata;
     }
-
-
 }

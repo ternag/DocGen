@@ -2,20 +2,21 @@
 
 namespace ConsoleApp1.B.BuildModel;
 
-public record SectionInfo(string Id, TmpRelationsInfo RelationsInfo);
+public abstract record SectionInfo(string Id);
 
-public abstract record DocumentInfo(int Id, string Title, IEnumerable<SectionInfo> Sections, string Fullname);
+public record TargetSectionInfo(string Id, IReadOnlyList<RelationSpec> RelationsSpec):SectionInfo(Id);
 
-public record TargetDocumentInfo(int Id, string Title, string Fullname, IEnumerable<SectionInfo> Sections, IReadOnlyList<RelationSpec> RelationsSpec, TmpRelationsInfo RelationsInfo) 
-    : DocumentInfo(Id, Title, Sections, $"{Fullname}-{Id}");
+public record SourceSectionInfo(string Id, Relations Relations):SectionInfo(Id);
 
-public record StaticRelationInfo(TargetDocumentInfo TargetDocument, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");
+public abstract record DocumentInfo(int Id, string Title, string Fullname);
 
-public record TmpRelationsInfo(int RangedTargetCount, int SingleTargetCount);
+public record TargetDocumentInfo(int Id, string Title, string Fullname, IEnumerable<TargetSectionInfo> Sections, IReadOnlyList<RelationSpec> RelationsSpec) : DocumentInfo(Id, Title, $"{Fullname}-{Id}");
 
-public record SourceDocumentInfo(int Id, string Title, string Fullname, IEnumerable<SectionInfo> Sections, Relations Relations) : DocumentInfo(Id, Title, Sections,  $"{Fullname}-{Id}");
+public record SourceDocumentInfo(int Id, string Title, string Fullname, IEnumerable<SourceSectionInfo> Sections, Relations Relations) : DocumentInfo(Id, Title, $"{Fullname}-{Id}");
 
 public class Relations
 {
     public List<StaticRelationInfo> StaticRelations { get; } = new();
 }
+
+public record StaticRelationInfo(TargetDocumentInfo TargetDocument, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");
