@@ -39,7 +39,7 @@ public class RecordTests
     [Fact]
     public void GivenDefaultSourceDocument_DefaultValuesShouldBeCorrect()
     {
-        var sut = new SourceDocuments();
+        var sut = new SourceDocumentsSpec();
 
         sut.SectionSpecs.Should().NotBeNull();
         sut.SectionSpecs.Count.Should().Be(1);

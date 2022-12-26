@@ -5,7 +5,7 @@ namespace ConsoleApp1.B.BuildModel;
 
 public static class Builder
 {
-    public static IReadOnlyList<SourceDocumentModel> BuildSourceDocuments(SourceDocuments sourceDocumentSpecification)
+    public static IReadOnlyList<SourceDocumentModel> BuildSourceDocuments(SourceDocumentsSpec sourceDocumentSpecification)
     {
         List<SourceDocumentModel> result = new List<SourceDocumentModel>((int)sourceDocumentSpecification.Count);
         foreach (int i in sourceDocumentSpecification.Count.Range1())
