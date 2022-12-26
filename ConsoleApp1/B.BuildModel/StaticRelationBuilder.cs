@@ -1,31 +1,46 @@
 ﻿using ConsoleApp1.A.ParseSpecification;
+using ConsoleApp1.C.CreateDocuments;
 
 namespace ConsoleApp1.B.BuildModel;
 
 public static class StaticRelationBuilder
 {
-    internal static void Create(IEnumerable<TargetDocumentModel> targetDocumentInfos, IReadOnlyList<SourceDocumentModel> sourceDocuments)
+    internal static void Create(IEnumerable<TargetDocumentModel> targetDocumentModels, IReadOnlyList<SourceDocumentModel> sourceDocumentModels)
     {
-        if (sourceDocuments.Count == 0)
+        if (sourceDocumentModels.Count == 0)
         {
             return;
         }
 
-        using var sourceDocumentEnumerator = sourceDocuments.GetEnumerator();
+        using var sourceDocumentEnumerator = sourceDocumentModels.GetEnumerator();
 
-        foreach (var targetDocument in targetDocumentInfos)
+        foreach (var targetDocument in targetDocumentModels)
         {
             var staticRelationSpec = targetDocument.RelationsSpec.Where(r => r.RelationKind == RelationKind.Static);
-            foreach (var item in staticRelationSpec)
+            foreach (var relationSpec in staticRelationSpec)
             {
-                CreateStaticRelations(targetDocument, sourceDocumentEnumerator, item.Count, item.RelationTypeCode);
+                CreateStaticRelations(targetDocument, sourceDocumentEnumerator, relationSpec.Count, relationSpec.RelationTypeCode);
+            }
+
+            foreach (var sectionModel in targetDocument.Sections)
+            {
+                staticRelationSpec = sectionModel.RelationsSpec.Where(r => r.RelationKind == RelationKind.Static);
+                foreach (var relationSpec in staticRelationSpec)
+                {
+                    CreateStaticRelations(targetDocument, sourceDocumentEnumerator, relationSpec.Count, relationSpec.RelationTypeCode, sectionModel.Id);
+                }
             }
         }
     }
 
-    private static void CreateStaticRelations(TargetDocumentModel targetDocument, IEnumerator<SourceDocumentModel> sourceDocumentEnumerator, int numberOfRelations, string relationTypeCode)
+    private static void CreateStaticRelations(
+        TargetDocumentModel targetDocument,
+        IEnumerator<SourceDocumentModel> sourceDocumentEnumerator,
+        int numberOfRelations,
+        string relationTypeCode,
+        string targetBookmark = "")
     {
-        for (int i = 0; i < numberOfRelations; i++)
+        foreach (var _ in numberOfRelations.Range0())
         {
             bool moveOn = sourceDocumentEnumerator.MoveNext();
             if (!moveOn)
@@ -34,7 +49,7 @@ public static class StaticRelationBuilder
                 sourceDocumentEnumerator.MoveNext();
             }
 
-            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationModel(targetDocument, relationTypeCode));
+            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationModel(targetDocument, relationTypeCode, TargetBookmark:targetBookmark));
         }
     }
 }
