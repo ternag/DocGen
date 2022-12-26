@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ConsoleApp1.A.ParseSpecification;
 
@@ -98,13 +97,3 @@ public record TargetFamily(
     [property: JsonPropertyName("NumberOfFutureDocuments")] int NumberOfFutureDocuments = 0,
     [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 0
 );
-
-public static class SpecificationLoader
-{
-    public static Specification Parse(string specificationText)
-    {
-        Specification? specification = JsonSerializer.Deserialize<Specification>(specificationText);
-        if (specification == null) throw new NullReferenceException($"{nameof(specification)} is null");
-        return specification;
-    }
-}

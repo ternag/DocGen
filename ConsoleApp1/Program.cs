@@ -43,21 +43,21 @@ void GoDoIt()
             metadataXml.AddStaticRelation(relation);
         }
 
-        SaveDocument(documentXml, metadataXml, doc);
+        SaveDocument(documentXml, metadataXml, doc.Fullname);
     }
 
     foreach (var doc in targetDocumentInfos)
     {
         var documentXml = generator.CreateTargetDocuments(doc);
         var metadataXml = generator.CreateMetadata(doc);
-        SaveDocument(documentXml, metadataXml, doc);
+        SaveDocument(documentXml, metadataXml, doc.Fullname);
     }
 
 }
 
-void SaveDocument(XDocument document, XDocument metadata, DocumentInfo info)
+void SaveDocument(XDocument document, XDocument metadata, string fullname)
 {
-    string documentDir = Path.Combine(outputDir, $"{info.Fullname}-{info.Id}");
+    string documentDir = Path.Combine(outputDir, fullname);
     Directory.CreateDirectory(documentDir);
     document.Save(Path.Combine(documentDir, $"document.xml"));
     metadata.Save(Path.Combine(documentDir, $"metadata.xml"));

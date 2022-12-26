@@ -1,6 +1,7 @@
 {
   "SourceDocuments": {
     "Count": 100,
+    "Fullname": "MySource",
     "Sections": [
       {
         "Count": 1
@@ -10,15 +11,16 @@
   "TargetDocuments": [
     {
       "Title": "Test many relations to this document",
+      "Fullname": "ATarget",
       "Relations": [
         {
           "RelationKind": "static",
-          "Count": 3000,
+          "Count": 50,
           "RelationTypeCode": "DIREKTE"
         },
         {
           "RelationKind": "static",
-          "Count": 3000,
+          "Count": 60,
           "RelationTypeCode": "OTHER"
         }
       ],
