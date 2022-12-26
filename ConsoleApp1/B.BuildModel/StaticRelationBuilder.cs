@@ -34,8 +34,7 @@ public static class StaticRelationBuilder
                 sourceDocumentEnumerator.MoveNext();
             }
 
-            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(
-                new StaticRelationInfo(targetDocument, relationTypeCode));
+            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationInfo(targetDocument, relationTypeCode));
         }
     }
 }

@@ -52,7 +52,6 @@ public static class Builder
         {
             foreach (var _ in section.Count.Range0())
             {
-                // TODO Build proper relations
                 yield return new SourceSectionInfo($"s{sectionId}", new Relations());
                 sectionId++;
             }

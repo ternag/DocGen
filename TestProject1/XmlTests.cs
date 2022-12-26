@@ -58,7 +58,7 @@ public class XmlTests
             ,new(Count: 10, RelationKind.RangedTarget)
         };
         
-        var actual = XDocumentCreator.GetRelationStats(relations, XNamespace.None, "test");
+        var actual = XmlCreate.RelationStats(relations, "test", XNamespace.None);
 
         actual.Value.Should().Contain("Static 12");
         actual.Value.Should().Contain("Single target 13");
