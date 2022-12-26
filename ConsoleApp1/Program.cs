@@ -34,7 +34,7 @@ void GoDoIt()
 
     StaticRelationBuilder.Create(targetDocumentInfos, sourceDocumentInfos);
 
-    foreach (SourceDocumentInfo doc in sourceDocumentInfos)
+    foreach (SourceDocumentModel doc in sourceDocumentInfos)
     {
         var documentXml = generator.CreateSourceDocuments(doc);
         var metadataXml = generator.CreateMetadata(doc);

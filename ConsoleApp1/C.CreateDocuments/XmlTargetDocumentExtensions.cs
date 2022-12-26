@@ -5,17 +5,17 @@ namespace ConsoleApp1.C.CreateDocuments;
 
 public static class XmlTargetDocumentExtensions
 {
-    public static XElement AddTargetDocumentInfo(this XElement article, TargetDocumentInfo info, XNamespace ns)
+    public static XElement AddTargetDocumentInfo(this XElement article, TargetDocumentModel model, XNamespace ns)
     {
         var element = new XElement(ns + "section",
             new XAttribute("id", "doc-info"),
-            new XElement(ns + "h1", $"Document '{info.Fullname}'"),
-            XmlCreate.RelationStats(info.RelationsSpec, "top of document", ns));
+            new XElement(ns + "h1", $"Document '{model.Fullname}'"),
+            XmlCreate.RelationStats(model.RelationsSpec, "top of document", ns));
         article.Add(element);
         return article;
     }
 
-    public static XElement AddTargetSections(this XElement article, IEnumerable<TargetSectionInfo> sections, XNamespace ns)
+    public static XElement AddTargetSections(this XElement article, IEnumerable<TargetSectionModel> sections, XNamespace ns)
     {
         foreach (var sectionInfo in sections)
         {
@@ -25,12 +25,12 @@ public static class XmlTargetDocumentExtensions
         return article;
     }
 
-    private static XElement AddTargetSection(this XElement article, TargetSectionInfo sectionInfo, XNamespace ns)
+    private static XElement AddTargetSection(this XElement article, TargetSectionModel sectionModel, XNamespace ns)
     {
         var element = new XElement(ns + "section",
-            new XAttribute("id", sectionInfo.Id),
-            new XElement(ns + "h1", $"Section id='{sectionInfo.Id}'"),
-            XmlCreate.RelationStats(sectionInfo.RelationsSpec, $"section", ns),
+            new XAttribute("id", sectionModel.Id),
+            new XElement(ns + "h1", $"Section id='{sectionModel.Id}'"),
+            XmlCreate.RelationStats(sectionModel.RelationsSpec, $"section", ns),
             new XElement(ns + "p", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."));
         article.Add(element);
         return article;

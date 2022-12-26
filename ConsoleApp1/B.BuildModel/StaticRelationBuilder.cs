@@ -4,7 +4,7 @@ namespace ConsoleApp1.B.BuildModel;
 
 public static class StaticRelationBuilder
 {
-    internal static void Create(IEnumerable<TargetDocumentInfo> targetDocumentInfos, IReadOnlyList<SourceDocumentInfo> sourceDocuments)
+    internal static void Create(IEnumerable<TargetDocumentModel> targetDocumentInfos, IReadOnlyList<SourceDocumentModel> sourceDocuments)
     {
         if (sourceDocuments.Count == 0)
         {
@@ -23,7 +23,7 @@ public static class StaticRelationBuilder
         }
     }
 
-    private static void CreateStaticRelations(TargetDocumentInfo targetDocument, IEnumerator<SourceDocumentInfo> sourceDocumentEnumerator, int numberOfRelations, string relationTypeCode)
+    private static void CreateStaticRelations(TargetDocumentModel targetDocument, IEnumerator<SourceDocumentModel> sourceDocumentEnumerator, int numberOfRelations, string relationTypeCode)
     {
         for (int i = 0; i < numberOfRelations; i++)
         {
@@ -34,7 +34,7 @@ public static class StaticRelationBuilder
                 sourceDocumentEnumerator.MoveNext();
             }
 
-            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationInfo(targetDocument, relationTypeCode));
+            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationModel(targetDocument, relationTypeCode));
         }
     }
 }

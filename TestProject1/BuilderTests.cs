@@ -19,7 +19,7 @@ namespace TestProject1
         public void GivenSectionSpecification_ReturnsExpectedNumberOfSections()
         {
             var testData = new List<SectionSpec> { new() { Count = 1 }, new() { Count = 6 }, new() { Count = 110 } };
-            IEnumerable<SectionInfo> sectionInfos = Builder.BuildSourceSectionsInfo(testData);
+            IEnumerable<SectionModel> sectionInfos = Builder.BuildSourceSectionsInfo(testData);
 
             sectionInfos.Count().Should().Be(117);
         }

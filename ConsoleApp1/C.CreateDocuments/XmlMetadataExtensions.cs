@@ -16,7 +16,7 @@ public static class XmlMetadataExtensions
     // <DocumentFamilySingleRelation RelationTypeCode="FAMILY" TargetFamilyName="73901_family" TargetStatus="Effective" />
     // <DocumentFamilyRangedRelation RelationTypeCode = "FAMILY" TargetFamilyName="71769_family" TargetStartFullName="71769_v1" />
     // <DocumentFamilyRangedRelation RelationTypeCode = "FAMILY" TargetFamilyName="71769_family" TargetStartFullName="71769_v1" TargetEndFullName="71769_v20" />
-    public static void AddStaticRelation(this XDocument document, StaticRelationInfo relation)
+    public static void AddStaticRelation(this XDocument document, StaticRelationModel relation)
     {
         document.AddStaticRelation(relation.RelationTypeCode,
             relation.TargetDocument.Fullname,
