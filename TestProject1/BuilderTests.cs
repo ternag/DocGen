@@ -86,7 +86,7 @@ namespace TestProject1
 
             StaticRelationBuilder.Create(targetDocumentModels, sourceDocumentModels);
 
-            sourceDocumentModels[0].Relations.StaticRelations.Count.Should().Be(14);
+            sourceDocumentModels[0].Relations.StaticRelations.Count.Should().Be(9);
 
             _output.WriteLine(JsonSerializer.Serialize(sourceDocumentModels, new JsonSerializerOptions { WriteIndented = true }));
         }
@@ -111,17 +111,13 @@ namespace TestProject1
             "KNOWN_FULLNAME",
             new[]
             {
-                new SectionSpec(
-                    2,
-                    new[]
-                    {
-                        new RelationSpec(7, RelationKind.Static, "KNOWN_RTC")
-                    })
+                new SectionSpec(2, new[] { new RelationSpec(3, RelationKind.Static, "KNOWN_RTC_STATIC") })
             },
             new[]
             {
-                new RelationSpec(1, RelationKind.RangedTarget, "KNOWN_RTC"),
-                new RelationSpec(5, RelationKind.SingleTarget, "KNOWN_RTC")
+                new RelationSpec(3, RelationKind.Static, "KNOWN_RTC_STATIC"),
+                new RelationSpec(5, RelationKind.RangedTarget, "KNOWN_RTC_RANGED"),
+                new RelationSpec(7, RelationKind.SingleTarget, "KNOWN_RTC_SINGLE")
             }
         );
     }

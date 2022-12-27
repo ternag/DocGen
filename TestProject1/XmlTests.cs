@@ -30,7 +30,7 @@ public class XmlTests
         var targetDocument = fixture.Create<TargetDocumentModel>();
 
         var staticRelationInfo = new StaticRelationModel(
-            targetDocument,
+            targetDocument.Fullname,
             "DIREKTE",
             "sourceBM",
             "targetBM");

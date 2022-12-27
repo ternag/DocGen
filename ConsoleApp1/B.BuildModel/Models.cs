@@ -19,4 +19,4 @@ public class Relations
     public List<StaticRelationModel> StaticRelations { get; } = new();
 }
 
-public record StaticRelationModel(TargetDocumentModel TargetDocument, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");
+public record StaticRelationModel(string TargetFullname, string RelationTypeCode, string SourceBookmark = "", string TargetBookmark = "");

@@ -27,7 +27,7 @@ public static class XmlMetadataExtensions
     public static void AddStaticRelation(this XDocument document, StaticRelationModel relation)
     {
         document.AddStaticRelation(relation.RelationTypeCode,
-            relation.TargetDocument.Fullname,
+            relation.TargetFullname,
             relation.SourceBookmark,
             relation.TargetBookmark);
     }

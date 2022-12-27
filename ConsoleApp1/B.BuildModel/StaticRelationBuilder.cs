@@ -49,7 +49,7 @@ public static class StaticRelationBuilder
                 sourceDocumentEnumerator.MoveNext();
             }
 
-            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationModel(targetDocument, relationTypeCode, TargetBookmark:targetBookmark));
+            sourceDocumentEnumerator.Current.Relations.StaticRelations.Add(new StaticRelationModel(targetDocument.Fullname, relationTypeCode, TargetBookmark:targetBookmark));
         }
     }
 }
