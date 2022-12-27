@@ -7,7 +7,7 @@ using ConsoleApp1.B.BuildModel;
 using ConsoleApp1.C.CreateDocuments;
 
 string specificationText = File.ReadAllText("./specification.json");
-Specification? specification = SpecificationLoader.Parse(specificationText);
+Specification specification = SpecificationLoader.Parse(specificationText);
 
 string outputDir = "/temp/GenerateDocPoc/output";
 Directory.CreateDirectory(outputDir);
@@ -29,28 +29,24 @@ void GoDoIt()
 {
     var generator = new XDocumentCreator();
 
-    var targetDocumentInfos = Builder.BuildTargetDocuments(specification.TargetDocuments).ToList();
-    var sourceDocumentInfos = Builder.BuildSourceDocuments(specification.SourceDocuments);
+    var targetDocumentModels = Builder.BuildTargetDocuments(specification.TargetDocuments).ToList();
+    var sourceDocumentModels = Builder.BuildSourceDocuments(specification.SourceDocuments);
 
-    StaticRelationBuilder.Create(targetDocumentInfos, sourceDocumentInfos);
+    StaticRelationBuilder.Create(targetDocumentModels, sourceDocumentModels);
 
-    foreach (SourceDocumentModel doc in sourceDocumentInfos)
+    foreach (var sourceDocumentModel in sourceDocumentModels)
     {
-        var documentXml = generator.CreateSourceDocuments(doc);
-        var metadataXml = generator.CreateMetadata(doc);
-        foreach (var relation in doc.Relations.StaticRelations)
-        {
-            metadataXml.AddStaticRelation(relation);
-        }
-
-        SaveDocument(documentXml, metadataXml, doc.Fullname);
+        var documentXml = generator.CreateSourceDocuments(sourceDocumentModel);
+        var metadataXml = generator.CreateMetadata(sourceDocumentModel);
+        metadataXml.AddStaticRelations(sourceDocumentModel.Relations.StaticRelations);
+        SaveDocument(documentXml, metadataXml, sourceDocumentModel.Fullname);
     }
 
-    foreach (var doc in targetDocumentInfos)
+    foreach (var targetDocumentModel in targetDocumentModels)
     {
-        var documentXml = generator.CreateTargetDocuments(doc);
-        var metadataXml = generator.CreateMetadata(doc);
-        SaveDocument(documentXml, metadataXml, doc.Fullname);
+        var documentXml = generator.CreateTargetDocuments(targetDocumentModel);
+        var metadataXml = generator.CreateMetadata(targetDocumentModel);
+        SaveDocument(documentXml, metadataXml, targetDocumentModel.Fullname);
     }
 
 }

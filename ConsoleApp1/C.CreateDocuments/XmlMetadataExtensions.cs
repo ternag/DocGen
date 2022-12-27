@@ -12,6 +12,14 @@ public static class XmlMetadataExtensions
         if (classifications != null) classifications.Add(classification);
     }
 
+    public static void AddStaticRelations(this XDocument metadata, IEnumerable<StaticRelationModel> staticRelations)
+    {
+        foreach (var relation in staticRelations)
+        {
+            metadata.AddStaticRelation(relation);
+        }
+    }
+    
     // <DocumentDocumentRelation RelationTypeCode="DIREKTE" SourceBookmark="p1-1" TargetFullName="71769" TargetBookmark="p1-1" />
     // <DocumentFamilySingleRelation RelationTypeCode="FAMILY" TargetFamilyName="73901_family" TargetStatus="Effective" />
     // <DocumentFamilyRangedRelation RelationTypeCode = "FAMILY" TargetFamilyName="71769_family" TargetStartFullName="71769_v1" />
