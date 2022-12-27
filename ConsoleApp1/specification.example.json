@@ -1,73 +1,4 @@
 ﻿{
-  "OrgTargetDocuments": {
-    "Count": 10,
-    "NumberOfSections": 1
-  },
-  "TargetFamilies": {
-    "Count": 1,
-    "FamilyDocument": {
-      "Count": 0,
-      "NumberOfSections": 1
-    },
-    "NumberOfHistoricDocuments": 3,
-    "NumberOfEffectiveDocuments": 1,
-    "NumberOfFutureDocuments": 0,
-    "NumberOfIndeterminateDocuments": 0
-  },
-  "ManyStaticRelationToOne": {
-    "Generate": true,
-    "RelationTypeCode": "DIREKTE",
-    "PercentToTargetDocument": 50,
-    "PercentToTargetSections": 50
-  },
-  "ManyRangeTargetRelationsToOneFamily": {
-    "Generate": false,
-    "RelationTypeCode": "DIREKTE",
-    "TargetStartMember": "first",
-    "TargetEndMember": "none",
-    "TargetWithinDocument": {
-      "PercentToTargetDocument": 50,
-      "PercentToTargetSections": 50
-    }
-  },
-  "ManySingleTargetRelationsToOneFamily": {
-    "Generate": false,
-    "RelationTypeCode": "DIREKTE",
-    "TargetMember": "first",
-    "TargetWithinDocument": {
-      "PercentToTargetDocument": 50,
-      "PercentToTargetSections": 50
-    }
-  },
-  "TargetFamily": {
-    "FamilyName": "TestFamily",
-    "Document": {
-      "Name": "Family document {x}",
-      "NumberOfStaticRelations": 100,
-      "Sections": [
-        {
-          "Name": "First Section",
-          "Bookmark": "fb",
-          "NumberOfRelations": 10,
-          "Relations": [
-            {
-              "RelationKind": "Static",
-              "RelationTypeCode": "DIREKTE"
-            }
-          ]
-        },
-        {
-          "Name": "Section{x}",
-          "Bookmark": "bm{x}",
-          "Count": 5
-        }
-      ]
-    },
-    "NumberOfHistoricDocuments": 3,
-    "NumberOfEffectiveDocuments": 1,
-    "NumberOfFutureDocuments": 0,
-    "NumberOfIndeterminateDocuments": 0
-  },
   "SourceDocuments": {
     "Count": 100,
     "Sections": [
@@ -107,5 +38,45 @@
         }
       ]
     }
-  ]
+  ],
+  "TargetFamilies": {
+    "Count": 1,
+    "FamilyDocument": {
+      "Count": 0,
+      "NumberOfSections": 1
+    },
+    "NumberOfHistoricDocuments": 3,
+    "NumberOfEffectiveDocuments": 1,
+    "NumberOfFutureDocuments": 0,
+    "NumberOfIndeterminateDocuments": 0
+  },
+  "TargetFamily": {
+    "FamilyName": "TestFamily",
+    "Document": {
+      "Name": "Family document {x}",
+      "NumberOfStaticRelations": 100,
+      "Sections": [
+        {
+          "Name": "First Section",
+          "Bookmark": "fb",
+          "NumberOfRelations": 10,
+          "Relations": [
+            {
+              "RelationKind": "Static",
+              "RelationTypeCode": "DIREKTE"
+            }
+          ]
+        },
+        {
+          "Name": "Section{x}",
+          "Bookmark": "bm{x}",
+          "Count": 5
+        }
+      ]
+    },
+    "NumberOfHistoricDocuments": 3,
+    "NumberOfEffectiveDocuments": 1,
+    "NumberOfFutureDocuments": 0,
+    "NumberOfIndeterminateDocuments": 0
+  }
 }

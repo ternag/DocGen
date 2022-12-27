@@ -1,7 +1,8 @@
 {
   "SourceDocuments": {
+    "Title": "Source document (QWE)",
     "Count": 100,
-    "Fullname": "MySource",
+    "Fullname": "SourceDoc",
     "Sections": [
       {
         "Count": 10
@@ -10,8 +11,8 @@
   },
   "TargetDocuments": [
     {
-      "Title": "Test many relations to this document",
-      "Fullname": "ATarget",
+      "Title": "Test many relations to this document (QWE)",
+      "Fullname": "TargetDoc",
       "Relations": [
         {
           "RelationKind": "static",
@@ -26,14 +27,14 @@
       ],
       "Sections": [
         {
-          "NumberOfStaticRelations": 500,
-          "Count": 10
-        },
-        {
-          "NumberOfRangedTargetRelations": 10
-        },
-        {
-          "NumberOfSingleTargetRelations": 10
+          "Count": 1,
+          "Relations": [
+            {
+              "Count": 500,
+              "RelationKind": "static",
+              "RelationTypeCode": "DIREKTE"
+            }
+          ]
         },
         {
           "Count": 1000

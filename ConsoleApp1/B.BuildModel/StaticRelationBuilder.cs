@@ -5,7 +5,7 @@ namespace ConsoleApp1.B.BuildModel;
 
 public static class StaticRelationBuilder
 {
-    internal static void Create(IEnumerable<TargetDocumentModel> targetDocumentModels, IReadOnlyList<SourceDocumentModel> sourceDocumentModels)
+    public static void Create(IEnumerable<TargetDocumentModel> targetDocumentModels, IReadOnlyList<SourceDocumentModel> sourceDocumentModels)
     {
         if (sourceDocumentModels.Count == 0)
         {

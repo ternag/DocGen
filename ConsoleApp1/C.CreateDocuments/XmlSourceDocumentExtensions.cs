@@ -9,7 +9,7 @@ public static class XmlSourceDocumentExtensions
     {
         var element = new XElement(ns + "section",
             new XAttribute("id", "doc-info"),
-            new XElement(ns + "h1", $"Document '{model.Fullname}'"));
+            new XElement(ns + "h1", $"Document Fullname: '{model.Fullname}'"));
         article.Add(element);
         return article;
     }

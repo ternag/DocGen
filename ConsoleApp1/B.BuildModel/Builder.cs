@@ -7,29 +7,41 @@ public static class Builder
 {
     public static IReadOnlyList<SourceDocumentModel> BuildSourceDocuments(SourceDocumentsSpec sourceDocumentSpecification)
     {
-        List<SourceDocumentModel> result = new List<SourceDocumentModel>((int)sourceDocumentSpecification.Count);
+        List<SourceDocumentModel> result = new List<SourceDocumentModel>(sourceDocumentSpecification.Count);
         foreach (int i in sourceDocumentSpecification.Count.Range1())
         {
-            var documentInfo = new SourceDocumentModel(i, $"Source document No. {i} of {sourceDocumentSpecification.Count}", sourceDocumentSpecification.Fullname, BuildSourceSectionsInfo(sourceDocumentSpecification.SectionSpecs), new Relations());
+            var documentInfo = new SourceDocumentModel(i,
+                $"{sourceDocumentSpecification.Title} // No. {i} of {sourceDocumentSpecification.Count}",
+                sourceDocumentSpecification.Fullname,
+                BuildSourceSectionsInfo(sourceDocumentSpecification.SectionSpecs),
+                new Relations());
             result.Add(documentInfo);
         }
         return result;
     }
 
-    public static IEnumerable<TargetDocumentModel> BuildTargetDocuments(IReadOnlyList<TargetDocumentSpec> targetDocumentsSpecification)
+    public static IEnumerable<TargetDocumentModel> BuildTargetDocuments(IEnumerable<TargetDocumentSpec> targetDocumentsSpecification)
     {
-        int documentId = 0;
-        foreach (TargetDocumentSpec targetDocument in targetDocumentsSpecification)
+        int documentId = 1;
+        var targetDocumentSpecs = targetDocumentsSpecification.ToList();
+        int totalNumberOfTargetDocuments = targetDocumentSpecs.Sum(x => x.Count);
+        foreach (var targetDocumentSpec in targetDocumentSpecs)
         {
-            yield return BuildTargetDocumentInfo(targetDocument, documentId, 0);
-            documentId++;
+            foreach (var _ in targetDocumentSpec.Count.Range1())
+            {
+                yield return BuildTargetDocumentInfo(targetDocumentSpec, documentId, totalNumberOfTargetDocuments);
+                documentId++;
+            }
         }
     }
 
     public static TargetDocumentModel BuildTargetDocumentInfo(TargetDocumentSpec targetDocumentSpec, int documentId, int totalNumberOfTargetDocuments)
     {
-        var title = targetDocumentSpec.Title.Replace("{x}", documentId.ToString());
-        return new TargetDocumentModel(documentId, title, targetDocumentSpec.Fullname, BuildTargetSectionsInfo(targetDocumentSpec.SectionSpecs), targetDocumentSpec.Relations);
+        return new TargetDocumentModel(documentId, 
+            $"{targetDocumentSpec.Title} // No. {documentId} of {totalNumberOfTargetDocuments}", 
+            targetDocumentSpec.Fullname, 
+            BuildTargetSectionsInfo(targetDocumentSpec.SectionSpecs), 
+            targetDocumentSpec.Relations);
     }
 
     private static IEnumerable<TargetSectionModel> BuildTargetSectionsInfo(IReadOnlyList<SectionSpec> sections)
