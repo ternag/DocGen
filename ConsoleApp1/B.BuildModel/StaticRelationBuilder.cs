@@ -5,6 +5,8 @@ namespace ConsoleApp1.B.BuildModel;
 
 public static class StaticRelationBuilder
 {
+    
+    // For now all static relations are added at the top of the source document.
     public static void Create(IEnumerable<TargetDocumentModel> targetDocumentModels, IReadOnlyList<SourceDocumentModel> sourceDocumentModels)
     {
         if (sourceDocumentModels.Count == 0)

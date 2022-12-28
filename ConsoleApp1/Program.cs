@@ -42,7 +42,7 @@ public class Program
         {
             var documentXml = generator.CreateSourceDocuments(sourceDocumentModel);
             var metadataXml = generator.CreateMetadata(sourceDocumentModel);
-            metadataXml.AddStaticRelations(sourceDocumentModel.Relations.StaticRelations);
+            metadataXml.AddStaticRelations(sourceDocumentModel);
             SaveDocument(documentXml, metadataXml, sourceDocumentModel.Fullname, outputDir);
         }
 

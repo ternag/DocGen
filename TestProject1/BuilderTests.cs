@@ -77,13 +77,20 @@ namespace TestProject1
         [Fact]
         public void GivenSourceAndTargetDocuments_CorrectNumberOfStaticRelationsAreGenerated()
         {
-            IReadOnlyList<SourceDocumentModel> sourceDocumentModels = Builder.BuildSourceDocuments(SourceDocumentSpec);
-            IEnumerable<TargetDocumentModel> targetDocumentModels = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec });
+            // Arrange
+            IReadOnlyList<SourceDocumentModel> sourceDocumentModels = Builder.BuildSourceDocuments(SourceDocumentSpec with {Count = 1});
+            IEnumerable<TargetDocumentModel> targetDocumentModels = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec with { Count = 1} });
 
+            // Act
             StaticRelationBuilder.Create(targetDocumentModels, sourceDocumentModels);
 
+            // Assert
             sourceDocumentModels[0].Relations.StaticRelations.Count.Should().Be(9);
+            sourceDocumentModels[0].Relations.StaticRelations.Count(x => x.RelationTypeCode.EndsWith("1")).Should().Be(2);
+            sourceDocumentModels[0].Relations.StaticRelations.Count(x => x.RelationTypeCode.EndsWith("2")).Should().Be(4);
+            sourceDocumentModels[0].Relations.StaticRelations.Count(x => x.RelationTypeCode.EndsWith("3")).Should().Be(3);
 
+            // 
             _output.WriteLine(JsonSerializer.Serialize(sourceDocumentModels, new JsonSerializerOptions { WriteIndented = true }));
         }
 
@@ -107,11 +114,15 @@ namespace TestProject1
             "KNOWN_FULLNAME",
             new[]
             {
-                new SectionSpec(2, new[] { new RelationSpec(3, RelationKind.Static, "KNOWN_RTC_STATIC") })
+                new SectionSpec(2, new[]
+                {
+                    new RelationSpec(1, RelationKind.Static, "KNOWN_RTC_STATIC_1"),
+                    new RelationSpec(2, RelationKind.Static, "KNOWN_RTC_STATIC_2")
+                })
             },
             new[]
             {
-                new RelationSpec(3, RelationKind.Static, "KNOWN_RTC_STATIC"),
+                new RelationSpec(3, RelationKind.Static, "KNOWN_RTC_STATIC_3"),
                 new RelationSpec(5, RelationKind.RangedTarget, "KNOWN_RTC_RANGED"),
                 new RelationSpec(7, RelationKind.SingleTarget, "KNOWN_RTC_SINGLE")
             }

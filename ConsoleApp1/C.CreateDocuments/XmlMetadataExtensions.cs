@@ -12,9 +12,13 @@ public static class XmlMetadataExtensions
         if (classifications != null) classifications.Add(classification);
     }
 
-    public static void AddStaticRelations(this XDocument metadata, IEnumerable<StaticRelationModel> staticRelations)
+    public static void AddStaticRelations(this XDocument metadata, SourceDocumentModel sourceDocumentModel)
     {
-        foreach (var relation in staticRelations)
+        foreach (var relation in sourceDocumentModel.Relations.StaticRelations)
+        {
+            metadata.AddStaticRelation(relation);
+        }
+        foreach (var relation in sourceDocumentModel.Sections.SelectMany(x => x.Relations.StaticRelations))
         {
             metadata.AddStaticRelation(relation);
         }
