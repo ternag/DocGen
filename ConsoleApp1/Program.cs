@@ -9,6 +9,7 @@ namespace ConsoleApp1;
 X Specify static relations in target document
 X Add static relation(s) to source document metadata
 X Add NumberOfSections to a document
+- Make SourceDocumentSpec a list in Specification record
 - Build document family (how to specify family?)
 - Build DynamicRelations to target family
 - Be able to indicate if source of relation should be a section bookmark
@@ -34,8 +35,8 @@ public class Program
     {
         var generator = new XDocumentCreator();
 
-        var targetDocumentModels = Builder.BuildTargetDocuments(specification.TargetDocuments).ToList();
-        var sourceDocumentModels = Builder.BuildSourceDocuments(specification.SourceDocuments);
+        var targetDocumentModels = Builder.BuildTargetDocuments(specification.TargetDocumentsSpec).ToList();
+        var sourceDocumentModels = Builder.BuildSourceDocuments(specification.SourceDocumentsSpec);
 
         StaticRelationBuilder.Create(targetDocumentModels, sourceDocumentModels);
 
