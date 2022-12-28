@@ -1,10 +1,6 @@
 ﻿using System.Text.Json;
-using AutoFixture;
-using ConsoleApp1;
 using ConsoleApp1.A.ParseSpecification;
 using ConsoleApp1.B.BuildModel;
-using FluentAssertions;
-using Xunit.Abstractions;
 
 namespace TestProject1
 {
@@ -79,7 +75,7 @@ namespace TestProject1
         }
 
         [Fact]
-        public void Given()
+        public void GivenSourceAndTargetDocuments_CorrectNumberOfStaticRelationsAreGenerated()
         {
             IReadOnlyList<SourceDocumentModel> sourceDocumentModels = Builder.BuildSourceDocuments(SourceDocumentSpec);
             IEnumerable<TargetDocumentModel> targetDocumentModels = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec });

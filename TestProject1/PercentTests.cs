@@ -1,5 +1,4 @@
 using ConsoleApp1;
-using FluentAssertions;
 
 namespace TestProject1
 {

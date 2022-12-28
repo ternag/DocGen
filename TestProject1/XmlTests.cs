@@ -1,11 +1,7 @@
 ﻿using System.Xml.Linq;
-using AutoFixture;
-using ConsoleApp1;
 using ConsoleApp1.A.ParseSpecification;
 using ConsoleApp1.B.BuildModel;
 using ConsoleApp1.C.CreateDocuments;
-using FluentAssertions;
-using Xunit.Abstractions;
 
 namespace TestProject1;
 
