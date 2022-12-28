@@ -6,14 +6,15 @@ using ConsoleApp1.C.CreateDocuments;
 namespace ConsoleApp1;
 
 /* To do:
-X Add static relation(s) to source documents
-- Fill in blanks in metadata file.
-- Add NumberOfSections to a document
-- Write outgoing relations in section 1 of the source document.
-- zip and send documents to Fundament
-- Build document family
+X Specify static relations in target document
+X Add static relation(s) to source document metadata
+X Add NumberOfSections to a document
+- Build document family (how to specify family?)
 - Build DynamicRelations to target family
-- Be able to indicate if static relations should point to a specific bookmark/whole document or if the target of the relation should be randomized within the target document.
+- Be able to indicate if source of relation should be a section bookmark
+- Fill in blanks in metadata file.
+- zip and send documents to Fundament
+- Be able to specify section body in specification.
 */
 
 public class Program

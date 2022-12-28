@@ -2,17 +2,17 @@
 
 namespace ConsoleApp1.B.BuildModel;
 
-public abstract record SectionModel(string Id);
-
-public record TargetSectionModel(string Id, IReadOnlyList<RelationSpec> RelationsSpec):SectionModel(Id);
-
-public record SourceSectionModel(string Id, Relations Relations):SectionModel(Id);
-
-public abstract record DocumentModel(int Id, string Title, string Fullname);
+public record SourceDocumentModel(int Id, string Title, string Fullname, IEnumerable<SourceSectionModel> Sections, Relations Relations) : DocumentModel(Id, Title, $"{Fullname}-{Id}");
 
 public record TargetDocumentModel(int Id, string Title, string Fullname, IEnumerable<TargetSectionModel> Sections, IReadOnlyList<RelationSpec> RelationsSpec) : DocumentModel(Id, Title, $"{Fullname}-{Id}");
 
-public record SourceDocumentModel(int Id, string Title, string Fullname, IEnumerable<SourceSectionModel> Sections, Relations Relations) : DocumentModel(Id, Title, $"{Fullname}-{Id}");
+public abstract record DocumentModel(int Id, string Title, string Fullname);
+
+public record SourceSectionModel(string Id, Relations Relations):SectionModel(Id);
+
+public record TargetSectionModel(string Id, IReadOnlyList<RelationSpec> RelationsSpec):SectionModel(Id);
+
+public abstract record SectionModel(string Id);
 
 public class Relations
 {
