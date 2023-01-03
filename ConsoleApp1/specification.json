@@ -1,46 +1,45 @@
 {
-    "SourceDocuments": {
-        "Count": 12,
-        "NumberOfSections": 1
-    },
-    "TargetDocuments": {
-        "Count": 1,
-        "NumberOfSections": 5
-    },
-    "TargetFamilies": {
-        "Count": 1,
-        "FamilyDocument": {
-            "Count": 0,
-            "NumberOfSections": 1
+  "SourceDocuments": {
+    "Title": "Source document (QWE)",
+    "Count": 100,
+    "Fullname": "SourceDoc",
+    "Sections": [
+      {
+        "Count": 10
+      }
+    ]
+  },
+  "TargetDocuments": [
+    {
+      "Title": "Test many relations to this document (QWE)",
+      "Fullname": "TargetDoc",
+      "Relations": [
+        {
+          "RelationKind": "static",
+          "Count": 50,
+          "RelationTypeCode": "DIREKTE"
         },
-        "NumberOfHistoricDocuments": 3,
-        "NumberOfEffectiveDocuments": 1,
-        "NumberOfFutureDocuments": 0,
-        "NumberOfIndeterminateDocuments": 0
-    },
-    "ManyStaticRelationToOne": {
-        "Generate": true,
-        "RelationTypeCode": "DIREKTE",
-        "PercentToTargetDocument": 50,
-        "PercentToTargetSections": 50
-    },
-    "ManyRangeTargetRelationsToOneFamily": {
-        "Generate": false,
-        "RelationTypeCode": "DIREKTE",
-        "TargetStartMember": "first",
-        "TargetEndMember": "none",
-        "TargetWithinDocument": {
-            "PercentToTargetDocument": 50,
-            "PercentToTargetSections": 50
+        {
+          "RelationKind": "static",
+          "Count": 60,
+          "RelationTypeCode": "OTHER"
         }
-    },
-    "ManySingleTargetRelationsToOneFamily": {
-        "Generate": false,
-        "RelationTypeCode": "DIREKTE",
-        "TargetMember": "first",
-        "TargetWithinDocument": {
-            "PercentToTargetDocument": 50,
-            "PercentToTargetSections": 50
+      ],
+      "Sections": [
+        {
+          "Count": 1,
+          "Relations": [
+            {
+              "Count": 500,
+              "RelationKind": "static",
+              "RelationTypeCode": "DIREKTE"
+            }
+          ]
+        },
+        {
+          "Count": 1000
         }
+      ]
     }
+  ]
 }

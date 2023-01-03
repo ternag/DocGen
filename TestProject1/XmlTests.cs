@@ -1,56 +1,65 @@
-﻿using ConsoleApp1;
-using Xunit.Abstractions;
+﻿using System.Xml.Linq;
+using ConsoleApp1.A.ParseSpecification;
+using ConsoleApp1.B.BuildModel;
+using ConsoleApp1.C.CreateDocuments;
 
-namespace TestProject1
+namespace TestProject1;
+
+public class XmlTests
 {
-    public class XmlTests
+    private readonly ITestOutputHelper _output;
+
+    public XmlTests(ITestOutputHelper output)
     {
-        private readonly ITestOutputHelper _output;
+        _output = output;
+    }
 
-        public XmlTests(ITestOutputHelper output)
-        {
-            _output = output;
-        }
+    //[Fact(Skip = "no assert - only output")]
+    [Fact]
+    public void Metadata()
+    {
+        XDocumentCreator sut = new XDocumentCreator();
 
-        [Fact]
-        public void Metadata()
-        {
-            XDocumentCreator sut = new XDocumentCreator();
+        IFixture fixture = new Fixture();
 
-            var sourceDocument = new SourceDocumentInfo(1, "test", new List<SectionInfo>());
-            var targetDocument = new TargetDocumentInfo(5, "Target5", new List<SectionInfo>());
+        var sourceDocument = fixture.Create<SourceDocumentModel>();
+        var targetDocument = fixture.Create<TargetDocumentModel>();
 
-            var staticRelationInfo = new StaticRelationInfo(12,
-                sourceDocument,
-                targetDocument,
-                "DIREKTE",
-                "sourceBM",
-                "targetBM");
+        var staticRelationInfo = new StaticRelationModel(
+            targetDocument.Fullname,
+            "DIREKTE",
+            "sourceBM",
+            "targetBM");
 
-            var metadata = sut.CreateMetadata(sourceDocument);
+        var metadata = sut.CreateMetadata(sourceDocument);
 
-            metadata.AddStaticRelation(staticRelationInfo);
+        metadata.AddStaticRelation(staticRelationInfo);
 
-            _output.WriteLine(metadata.ToString());
-        }
+        _output.WriteLine(metadata.ToString());
+    }
 
-        [Fact]
-        public void Document()
-        {
-            XDocumentCreator sut = new XDocumentCreator();
 
-            var sourceDocumentSpecification = new SourceDocuments(1, 3);
+    /// <summary>
+    /// can be removed if it is annoying
+    /// </summary>
+    [Fact]
+    public void GivenRelationSpec_CountIsCorrect()
+    {
+        RelationSpec[] relations = {
+            new(Count: 2)
+            ,new(Count: 10)
+            ,new(Count: 3, RelationKind.SingleTarget)
+            ,new(Count: 10, RelationKind.SingleTarget)
+            ,new(Count: 4, RelationKind.RangedTarget)
+            ,new(Count: 10, RelationKind.RangedTarget)
+        };
+        
+        var actual = XmlCreate.RelationStats(relations, "test", XNamespace.None);
 
-            var sourceDocument = Builder.BuildSourceDocumentInfo(sourceDocumentSpecification).First();
-            var document = sut.CreateDocument(sourceDocument);
-
-            _output.WriteLine(document.ToString());
-        }
-
-        [Fact]
-        public void LoremIpsumTest()
-        {
-            _output.WriteLine(LoremIpsum.GetRandomLength());
-        }
+        actual.Value.Should().Contain("Static 12");
+        actual.Value.Should().Contain("Single target 13");
+        actual.Value.Should().Contain("Ranged target 14");
+        
+        _output.WriteLine(actual.ToString());
     }
 }

@@ -1,6 +1,4 @@
-﻿using ConsoleApp1;
-using FluentAssertions;
-using Xunit.Abstractions;
+﻿using ConsoleApp1.C.CreateDocuments;
 
 namespace TestProject1;
 
