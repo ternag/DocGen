@@ -29,6 +29,7 @@ public static class XmlTargetDocumentExtensions
     {
         var element = new XElement(ns + "section",
             new XAttribute("id", sectionModel.Id),
+            new XAttribute("class", sectionModel.Class),
             new XElement(ns + "h1", $"Section id='{sectionModel.Id}'"),
             XmlCreate.RelationStats(sectionModel.RelationsSpec, $"section", ns),
             new XElement(ns + "p", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."));

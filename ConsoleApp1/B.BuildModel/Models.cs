@@ -8,11 +8,11 @@ public record TargetDocumentModel(int Id, string Title, string Fullname, IEnumer
 
 public abstract record DocumentModel(int Id, string Title, string Fullname);
 
-public record SourceSectionModel(string Id, Relations Relations):SectionModel(Id);
+public record SourceSectionModel(string Id, string Class, Relations Relations):SectionModel(Id, Class);
 
-public record TargetSectionModel(string Id, IReadOnlyList<RelationSpec> RelationsSpec):SectionModel(Id);
+public record TargetSectionModel(string Id, string Class, IReadOnlyList<RelationSpec> RelationsSpec):SectionModel(Id, Class);
 
-public abstract record SectionModel(string Id);
+public abstract record SectionModel(string Id, string Class);
 
 public class Relations
 {

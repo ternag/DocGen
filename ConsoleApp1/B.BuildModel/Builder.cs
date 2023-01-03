@@ -51,7 +51,7 @@ public static class Builder
         {
             foreach (var _ in section.Count.Range0())
             {
-                yield return new TargetSectionModel($"s{sectionId}", section.Relations);
+                yield return new TargetSectionModel($"s{sectionId}", section.Class, section.Relations);
                 sectionId++;
             }
         }
@@ -64,7 +64,7 @@ public static class Builder
         {
             foreach (var _ in section.Count.Range0())
             {
-                yield return new SourceSectionModel($"s{sectionId}", new Relations());
+                yield return new SourceSectionModel($"s{sectionId}", section.Class, new Relations());
                 sectionId++;
             }
         }

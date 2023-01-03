@@ -27,8 +27,8 @@ public static class XmlSourceDocumentExtensions
     public static XElement AddSourceSection(this XElement article, SourceSectionModel sectionModel, XNamespace ns)
     {
         var section = new XElement(ns + "section",
-            new XAttribute("id",
-                sectionModel.Id),
+            new XAttribute("id", sectionModel.Id),
+            new XAttribute("class", sectionModel.Class),
             new XElement(ns + "h1", $"Section id='{sectionModel.Id}'"),
             new XElement(ns + "p", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."));
         article.Add(section);

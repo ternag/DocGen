@@ -33,7 +33,8 @@ public record TargetDocumentSpec
 public record SectionSpec
 (
     [property: JsonPropertyName("Count")] int Count = 1, 
-    IReadOnlyList<RelationSpec> Relations = default!
+    IReadOnlyList<RelationSpec> Relations = default!,
+    [property: JsonPropertyName("Class")] string Class = "paragraf"
 )
 {
     [property: JsonPropertyName("Relations")] public IReadOnlyList<RelationSpec> Relations { get; init; } = Relations ?? new[] { new RelationSpec() };
