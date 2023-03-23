@@ -43,15 +43,17 @@ public record SectionSpec
 public record RelationSpec(
     [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("RelationKind")] RelationKind RelationKind = RelationKind.Static,
-    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE"
+    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE",
+    [property: JsonPropertyName("TargetVersion")] string TargetVersion = -1
 );
 
-public record TargetFamily(
+public record Family(
     [property: JsonPropertyName("FamilyName")] string FamilyName,
-    [property: JsonPropertyName("NumberOfHistoricDocuments")] int NumberOfHistoricDocuments = 0,
-    [property: JsonPropertyName("NumberOfEffectiveDocuments")] int NumberOfEffectiveDocuments = 0,
-    [property: JsonPropertyName("NumberOfFutureDocuments")] int NumberOfFutureDocuments = 0,
-    [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 0
+    [property: JsonPropertyName("NumberOfHistoricDocuments")] int NumberOfHistoricDocuments = 5,
+    [property: JsonPropertyName("NumberOfEffectiveDocuments")] int NumberOfEffectiveDocuments = 1,
+    [property: JsonPropertyName("NumberOfFutureDocuments")] int NumberOfFutureDocuments = 2,
+    [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 1,
+    [property: JsonPropertyName("VersionTimespan")] int VersionTimespanInDays = 30
 );
 
 public record FamilyDocument(
@@ -66,3 +68,5 @@ public record TargetFamilies(
     [property: JsonPropertyName("NumberOfFutureDocuments")] uint NumberOfFutureDocuments,
     [property: JsonPropertyName("NumberOfIndeterminateDocuments")] uint NumberOfIndeterminateDocuments
 );
+
+

@@ -13,9 +13,18 @@
     {
       "Title": "Test many relations to this document (QWE)",
       "Fullname": "TargetDoc",
+      "Family": {
+        "FamilyName": "lov01",
+        "NumberOfHistoricDocuments": 5,
+        "NumberOfEffectiveDocuments": 1,
+        "NumberOfFutureDocuments": 2,
+        "NumberOfIndeterminateDocuments": 1,
+        "VersionTimespan": 30
+      },
       "Relations": [
         {
-          "RelationKind": "static",
+          "RelationKind": "MultiTarget",
+          "TargetVersion": 4,
           "Count": 50,
           "RelationTypeCode": "DIREKTE"
         },
