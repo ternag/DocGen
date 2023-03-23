@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
-using ConsoleApp1.A.ParseSpecification;
+using DocHose.A.ParseSpecification;
 
-namespace ConsoleApp1.C.CreateDocuments;
+namespace DocHose.C.CreateDocuments;
 
 public static class XmlCreate
 {

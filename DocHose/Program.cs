@@ -1,9 +1,9 @@
 ﻿using System.Xml.Linq;
-using ConsoleApp1.A.ParseSpecification;
-using ConsoleApp1.B.BuildModel;
-using ConsoleApp1.C.CreateDocuments;
+using DocHose.A.ParseSpecification;
+using DocHose.B.BuildModel;
+using DocHose.C.CreateDocuments;
 
-namespace ConsoleApp1;
+namespace DocHose;
 
 /* To do:
 X Specify static relations in target document
@@ -18,7 +18,7 @@ X Add NumberOfSections to a document
 - Be able to specify section body in specification.
 */
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {

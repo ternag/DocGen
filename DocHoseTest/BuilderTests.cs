@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using ConsoleApp1.A.ParseSpecification;
-using ConsoleApp1.B.BuildModel;
+using DocHose.A.ParseSpecification;
+using DocHose.B.BuildModel;
 
-namespace TestProject1
+namespace DocHoseTest
 {
     public class BuilderTests
     {

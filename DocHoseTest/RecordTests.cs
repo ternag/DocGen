@@ -1,8 +1,7 @@
-﻿using ConsoleApp1;
-using System.Text.Json;
-using ConsoleApp1.A.ParseSpecification;
+﻿using System.Text.Json;
+using DocHose.A.ParseSpecification;
 
-namespace TestProject1;
+namespace DocHoseTest;
 
 public class RecordTests
 {

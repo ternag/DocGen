@@ -1,6 +1,6 @@
-﻿using ConsoleApp1.C.CreateDocuments;
+﻿using DocHose.C.CreateDocuments;
 
-namespace TestProject1;
+namespace DocHoseTest;
 
 public class ExtensionTests
 {

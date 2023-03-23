@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ConsoleApp1.A.ParseSpecification;
+namespace DocHose.A.ParseSpecification;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum RelationKind

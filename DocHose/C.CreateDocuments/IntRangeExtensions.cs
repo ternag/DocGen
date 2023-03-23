@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1.C.CreateDocuments;
+﻿namespace DocHose.C.CreateDocuments;
 
 public static class IntRangeExtensions
 {

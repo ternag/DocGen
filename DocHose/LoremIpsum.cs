@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1;
+﻿namespace DocHose;
 
 public static class LoremIpsum
 {

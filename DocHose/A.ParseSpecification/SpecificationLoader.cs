@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ConsoleApp1.A.ParseSpecification;
+namespace DocHose.A.ParseSpecification;
 
 public static class SpecificationLoader
 {

@@ -1,9 +1,9 @@
 ﻿using System.Xml.Linq;
-using ConsoleApp1.A.ParseSpecification;
-using ConsoleApp1.B.BuildModel;
-using ConsoleApp1.C.CreateDocuments;
+using DocHose.A.ParseSpecification;
+using DocHose.B.BuildModel;
+using DocHose.C.CreateDocuments;
 
-namespace TestProject1;
+namespace DocHoseTest;
 
 public class XmlTests
 {

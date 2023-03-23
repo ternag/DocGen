@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ConsoleApp1;
+namespace DocHose;
 
 [JsonConverter(typeof(PercentJsonConverter))]
 public record Percent 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ConsoleApp1.A.ParseSpecification;
+namespace DocHose.A.ParseSpecification;
 
 public record Specification(
     [property: JsonPropertyName("SourceDocuments")] SourceDocumentsSpec SourceDocumentsSpec = default!,

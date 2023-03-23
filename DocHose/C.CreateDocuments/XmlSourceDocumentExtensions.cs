@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
-using ConsoleApp1.B.BuildModel;
+using DocHose.B.BuildModel;
 
-namespace ConsoleApp1.C.CreateDocuments;
+namespace DocHose.C.CreateDocuments;
 
 public static class XmlSourceDocumentExtensions
 {
@@ -30,7 +30,7 @@ public static class XmlSourceDocumentExtensions
             new XAttribute("id", sectionModel.Id),
             new XAttribute("class", sectionModel.Class),
             new XElement(ns + "h1", $"Section id='{sectionModel.Id}'"),
-            new XElement(ns + "p", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."));
+            new XElement(ns + "p", LoremIpsum.GetRandomLength()));
         article.Add(section);
         return section;
     }

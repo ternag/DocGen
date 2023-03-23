@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace ConsoleApp1.C.CreateDocuments;
+namespace DocHose.C.CreateDocuments;
 
 public class ElementNotFoundException : Exception
 {

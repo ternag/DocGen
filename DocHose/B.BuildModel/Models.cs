@@ -1,6 +1,6 @@
-﻿using ConsoleApp1.A.ParseSpecification;
+﻿using DocHose.A.ParseSpecification;
 
-namespace ConsoleApp1.B.BuildModel;
+namespace DocHose.B.BuildModel;
 
 public record SourceDocumentModel(int Id, string Title, string Fullname, IEnumerable<SourceSectionModel> Sections, Relations Relations) : DocumentModel(Id, Title, $"{Fullname}-{Id}");
 

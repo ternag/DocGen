@@ -1,7 +1,7 @@
-﻿using ConsoleApp1.A.ParseSpecification;
-using ConsoleApp1.C.CreateDocuments;
+﻿using DocHose.C.CreateDocuments;
+using DocHose.A.ParseSpecification;
 
-namespace ConsoleApp1.B.BuildModel;
+namespace DocHose.B.BuildModel;
 
 public static class StaticRelationBuilder
 {

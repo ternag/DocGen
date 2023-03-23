@@ -1,6 +1,6 @@
-using ConsoleApp1;
+using DocHose;
 
-namespace TestProject1
+namespace DocHoseTest
 {
     public class PercentTests
     {
