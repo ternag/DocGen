@@ -1,7 +1,7 @@
 {
   "SourceDocuments": {
     "Title": "Source document (QWE)",
-    "Count": 1000,
+    "Count": 2,
     "Fullname": "SourceDoc",
     "Sections": [
       {
@@ -9,21 +9,32 @@
       }
     ]
   },
+  "Family": {
+    "FamilyName": "lov01",
+    "VersionTimespanDays": 30,
+    "TargetDocuments": [
+      {
+        "Count": 5,
+        "Title": "Historic member of lov01",
+        "Fullname": "FamilyMember",
+        "Status": "Historic"
+      },
+      {
+        "Count": 1,
+        "Title": "Effective member of lov01",
+        "Fullname": "FamilyMember",
+        "Status": "Effective"
+      }
+    ]
+  },
   "TargetDocuments": [
     {
       "Title": "Test many relations to this document (QWE)",
       "Fullname": "TargetDoc",
-      "Family": {
-        "FamilyName": "lov01",
-        "NumberOfHistoricDocuments": 5,
-        "NumberOfEffectiveDocuments": 1,
-        "NumberOfFutureDocuments": 2,
-        "NumberOfIndeterminateDocuments": 1,
-        "VersionTimespan": 30
-      },
+      "Count": 2,
       "Relations": [
         {
-          "RelationKind": "MultiTarget",
+          "RelationKind": "Static",
           "TargetVersion": 4,
           "Count": 50,
           "RelationTypeCode": "DIREKTE"
@@ -46,7 +57,7 @@
           ]
         },
         {
-          "Count": 1000
+          "Count": 10
         }
       ]
     }

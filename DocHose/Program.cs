@@ -33,26 +33,39 @@ public static class Program
 
     private static void GenerateDocuments(Specification specification, string outputDir)
     {
-        var generator = new XDocumentCreator();
+        XDocumentCreator generator = new ();
+        DocumentCounter documentCounter = new();
 
-        var targetDocumentModels = Builder.BuildTargetDocuments(specification.TargetDocumentsSpec).ToList();
-        var sourceDocumentModels = Builder.BuildSourceDocuments(specification.SourceDocumentsSpec);
+        // Build document models
+        var targetDocumentModels = Builder.BuildTargetDocuments(specification.TargetDocumentsSpec, documentCounter).ToList();
+        var sourceDocumentModels = Builder.BuildSourceDocuments(specification.SourceDocumentsSpec, documentCounter);
+        var targetFamilyModel = FamilyBuilder.BuildMemberDocuments(specification.FamilySpec, documentCounter);
+        
 
+        // Add relations to document models
         StaticRelationBuilder.Create(targetDocumentModels, sourceDocumentModels);
 
+        // Save actual documents
         foreach (var sourceDocumentModel in sourceDocumentModels)
         {
             var documentXml = generator.CreateSourceDocuments(sourceDocumentModel);
             var metadataXml = generator.CreateMetadata(sourceDocumentModel);
             metadataXml.AddStaticRelations(sourceDocumentModel);
-            SaveDocument(documentXml, metadataXml, sourceDocumentModel.Fullname, outputDir);
+            SaveDocument(documentXml, metadataXml, $"{sourceDocumentModel.Fullname}.doc", outputDir);
         }
 
         foreach (var targetDocumentModel in targetDocumentModels)
         {
             var documentXml = generator.CreateTargetDocuments(targetDocumentModel);
             var metadataXml = generator.CreateMetadata(targetDocumentModel);
-            SaveDocument(documentXml, metadataXml, targetDocumentModel.Fullname, outputDir);
+            SaveDocument(documentXml, metadataXml, $"{targetDocumentModel.Fullname}.doc", outputDir);
+        }
+        
+        foreach (var targetDocumentModel in targetFamilyModel.MemberDocuments)
+        {
+            var documentXml = generator.CreateTargetDocuments(targetDocumentModel);
+            var metadataXml = generator.CreateMetadata(targetDocumentModel);
+            SaveDocument(documentXml, metadataXml, $"{targetDocumentModel.Fullname}.doc", Path.Combine(outputDir, $"{targetFamilyModel.FamilyName}.family"));
         }
     }
 

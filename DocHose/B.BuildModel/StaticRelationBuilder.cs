@@ -18,7 +18,7 @@ public static class StaticRelationBuilder
 
         foreach (var targetDocument in targetDocumentModels)
         {
-            var staticRelationSpec = targetDocument.RelationsSpec.Where(r => r.RelationKind == RelationKind.Static);
+            var staticRelationSpec = targetDocument.RelationSpecsSpec.Where(r => r.RelationKind == RelationKind.Static);
             foreach (var relationSpec in staticRelationSpec)
             {
                 CreateStaticRelations(targetDocument, sourceDocumentEnumerator, relationSpec.Count, relationSpec.RelationTypeCode);

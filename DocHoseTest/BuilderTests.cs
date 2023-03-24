@@ -27,7 +27,7 @@ namespace DocHoseTest
         [Fact]
         public void GivenSourceDocumentSpec_ModelIsCorrect()
         {
-            IReadOnlyList<SourceDocumentModel> actual = Builder.BuildSourceDocuments(SourceDocumentSpec);
+            IReadOnlyList<SourceDocumentModel> actual = Builder.BuildSourceDocuments(SourceDocumentSpec, new DocumentCounter());
 
             actual.Should().NotBeNull();
             actual.Count.Should().Be(3);
@@ -52,7 +52,7 @@ namespace DocHoseTest
         [Fact]
         public void GivenTargetDocumentSpec_ModelIsCorrect()
         {
-            List<TargetDocumentModel> actual = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec }).ToList();
+            List<TargetDocumentModel> actual = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec }, new DocumentCounter()).ToList();
 
             actual.Should().NotBeNull();
             actual.Count.Should().Be(3);
@@ -78,8 +78,8 @@ namespace DocHoseTest
         public void GivenSourceAndTargetDocuments_CorrectNumberOfStaticRelationsAreGenerated()
         {
             // Arrange
-            IReadOnlyList<SourceDocumentModel> sourceDocumentModels = Builder.BuildSourceDocuments(SourceDocumentSpec with {Count = 1});
-            IEnumerable<TargetDocumentModel> targetDocumentModels = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec with { Count = 1} });
+            IReadOnlyList<SourceDocumentModel> sourceDocumentModels = Builder.BuildSourceDocuments(SourceDocumentSpec with {Count = 1}, new DocumentCounter());
+            IEnumerable<TargetDocumentModel> targetDocumentModels = Builder.BuildTargetDocuments(new[] { TargetDocumentSpec with { Count = 1} }, new DocumentCounter());
 
             // Act
             StaticRelationBuilder.Create(targetDocumentModels, sourceDocumentModels);
@@ -93,6 +93,74 @@ namespace DocHoseTest
             // 
             _output.WriteLine(JsonSerializer.Serialize(sourceDocumentModels, new JsonSerializerOptions { WriteIndented = true }));
         }
+
+        [Fact]
+        public void GivenFamilySpec_BuildsCorrectNumberOfMembers()
+        {
+            TargetFamilyModel buildTargetFamilyModel = Builder.BuildTargetFamilyModel(FamilySpec, new DocumentCounter());
+
+            buildTargetFamilyModel.MemberDocuments.Count().Should().Be(4);
+        }
+
+        [Fact]
+        public void GivenFamilySpec_MemberDocumentsAreOrderedByStatus()
+        {
+            FamilySpec spec = new FamilySpec("FamilyName", 30, new[]
+            {
+                new TargetDocumentSpec(1, Status:Status.Indeterminate),
+                new TargetDocumentSpec(3, Status:Status.Historic),
+                new TargetDocumentSpec(2, Status:Status.Effective),
+                new TargetDocumentSpec(1, Status:Status.Indeterminate),
+                new TargetDocumentSpec(1, Status:Status.Future),
+                new TargetDocumentSpec(2, Status:Status.Historic),
+            });
+            var expectedStates = new[]
+            {
+                Status.Historic,
+                Status.Historic,
+                Status.Historic,
+                Status.Historic,
+                Status.Historic,
+                Status.Effective,
+                Status.Effective,
+                Status.Future,
+                Status.Indeterminate,
+                Status.Indeterminate
+            };
+            
+            var targetFamilyModel = Builder.BuildTargetFamilyModel(spec, new DocumentCounter());
+
+            targetFamilyModel.MemberDocuments.Select(x => x.Status).Should().BeEquivalentTo(expectedStates, o => o.WithStrictOrdering());
+        }
+
+        [Fact]
+        public void GivenFamilySpec_MembersHasCorrectStatus()
+        {
+            TargetFamilyModel buildTargetFamilyModel = Builder.BuildTargetFamilyModel(FamilySpec, new DocumentCounter());
+
+            var members = buildTargetFamilyModel.MemberDocuments.ToArray();
+            members[3].EffectiveDate.Date.Should().BeBefore(DateTime.Now);
+            members[3].RepealDate.HasValue.Should().BeFalse();
+            
+            members[2].EffectiveDate.Date.Should().BeBefore(members[3].EffectiveDate);
+            members[2].RepealDate?.Date.Should().BeBefore(members[3].EffectiveDate);
+            members[2].RepealDate?.Date.Should().BeAfter(members[2].EffectiveDate);
+            
+            members[1].EffectiveDate.Date.Should().BeBefore(members[2].EffectiveDate);
+            members[1].RepealDate?.Date.Should().BeBefore(members[2].EffectiveDate);
+            members[1].RepealDate?.Date.Should().BeAfter(members[1].EffectiveDate);
+
+            members[0].EffectiveDate.Date.Should().BeBefore(members[1].EffectiveDate);
+            members[0].RepealDate?.Date.Should().BeBefore(members[1].EffectiveDate);
+            members[0].RepealDate?.Date.Should().BeAfter(members[0].EffectiveDate);
+        }
+
+
+        private FamilySpec FamilySpec => new FamilySpec("FamilyName", 10, new []
+        {
+            new TargetDocumentSpec(3, Status:Status.Historic),
+            new TargetDocumentSpec(Status:Status.Effective)
+        });
 
         private SourceDocumentsSpec SourceDocumentSpec => new SourceDocumentsSpec(
             3,
@@ -112,6 +180,7 @@ namespace DocHoseTest
             3,
             "KNOWN TITLE",
             "KNOWN_FULLNAME",
+            Status.Effective,
             new[]
             {
                 new SectionSpec(2, new[]

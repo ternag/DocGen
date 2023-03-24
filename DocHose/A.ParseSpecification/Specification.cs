@@ -4,7 +4,8 @@ namespace DocHose.A.ParseSpecification;
 
 public record Specification(
     [property: JsonPropertyName("SourceDocuments")] SourceDocumentsSpec SourceDocumentsSpec = default!,
-    [property: JsonPropertyName("TargetDocuments")] IReadOnlyList<TargetDocumentSpec> TargetDocumentsSpec = default!
+    [property: JsonPropertyName("TargetDocuments")] IReadOnlyList<TargetDocumentSpec> TargetDocumentsSpec = default!,
+    [property: JsonPropertyName("Family")] FamilySpec FamilySpec = default!
 );
 
 public record SourceDocumentsSpec(
@@ -22,6 +23,7 @@ public record TargetDocumentSpec
     [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("Title")] string Title = "Target document",
     [property: JsonPropertyName("Fullname")] string Fullname = "TargetDocument",
+    [property: JsonPropertyName("Status")] Status Status = Status.Effective,
     IReadOnlyList<SectionSpec> SectionSpecs = default!,
     IReadOnlyList<RelationSpec> Relations = default!
 )
@@ -43,30 +45,14 @@ public record SectionSpec
 public record RelationSpec(
     [property: JsonPropertyName("Count")] int Count = 1,
     [property: JsonPropertyName("RelationKind")] RelationKind RelationKind = RelationKind.Static,
-    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE",
-    [property: JsonPropertyName("TargetVersion")] string TargetVersion = -1
+    [property: JsonPropertyName("RelationTypeCode")] string RelationTypeCode = "DIREKTE"
 );
 
-public record Family(
+public record FamilySpec(
     [property: JsonPropertyName("FamilyName")] string FamilyName,
-    [property: JsonPropertyName("NumberOfHistoricDocuments")] int NumberOfHistoricDocuments = 5,
-    [property: JsonPropertyName("NumberOfEffectiveDocuments")] int NumberOfEffectiveDocuments = 1,
-    [property: JsonPropertyName("NumberOfFutureDocuments")] int NumberOfFutureDocuments = 2,
-    [property: JsonPropertyName("NumberOfIndeterminateDocuments")] int NumberOfIndeterminateDocuments = 1,
-    [property: JsonPropertyName("VersionTimespan")] int VersionTimespanInDays = 30
-);
-
-public record FamilyDocument(
-    [property: JsonPropertyName("NumberOfSections")] NumberOfSections NumberOfSections
-);
-
-public record TargetFamilies(
-    [property: JsonPropertyName("Count")] DocumentCount Count,
-    [property: JsonPropertyName("FamilyDocument")] FamilyDocument FamilyDocument,
-    [property: JsonPropertyName("NumberOfHistoricDocuments")] uint NumberOfHistoricDocuments,
-    [property: JsonPropertyName("NumberOfEffectiveDocuments")] uint NumberOfEffectiveDocuments,
-    [property: JsonPropertyName("NumberOfFutureDocuments")] uint NumberOfFutureDocuments,
-    [property: JsonPropertyName("NumberOfIndeterminateDocuments")] uint NumberOfIndeterminateDocuments
-);
-
-
+    [property: JsonPropertyName("VersionTimespanInDays")] int VersionTimespanInDays = 30,
+    IReadOnlyList<TargetDocumentSpec> TargetDocuments = default!
+)
+{
+    [property: JsonPropertyName("TargetDocuments")] public IReadOnlyList<TargetDocumentSpec> TargetDocuments { get; init; } = TargetDocuments ?? new[] { new TargetDocumentSpec() };
+};

@@ -10,7 +10,7 @@ public static class XmlTargetDocumentExtensions
         var element = new XElement(ns + "section",
             new XAttribute("id", "doc-info"),
             new XElement(ns + "h1", $"Document Fullname: '{model.Fullname}'"),
-            XmlCreate.RelationStats(model.RelationsSpec, "top of document", ns));
+            XmlCreate.RelationStats(model.RelationSpecsSpec.ToList(), "top of document", ns));
         article.Add(element);
         return article;
     }
