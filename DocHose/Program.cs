@@ -9,8 +9,9 @@ namespace DocHose;
 X Specify static relations in target document
 X Add static relation(s) to source document metadata
 X Add NumberOfSections to a document
-- Make SourceDocumentSpec a list in Specification record
 - Build document family (how to specify family?)
+- Set metadata (in order to satisfy swarm condition)
+- Make SourceDocumentSpec a list in Specification record
 - Build DynamicRelations to target family
 - Be able to indicate if source of relation should be a section bookmark
 - Fill in blanks in metadata file.

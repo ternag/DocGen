@@ -97,7 +97,7 @@ namespace DocHoseTest
         [Fact]
         public void GivenFamilySpec_BuildsCorrectNumberOfMembers()
         {
-            TargetFamilyModel buildTargetFamilyModel = Builder.BuildTargetFamilyModel(FamilySpec, new DocumentCounter());
+            TargetFamilyModel buildTargetFamilyModel = FamilyBuilder.BuildMemberDocuments(FamilySpec, new DocumentCounter());
 
             buildTargetFamilyModel.MemberDocuments.Count().Should().Be(4);
         }
@@ -128,7 +128,7 @@ namespace DocHoseTest
                 Status.Indeterminate
             };
             
-            var targetFamilyModel = Builder.BuildTargetFamilyModel(spec, new DocumentCounter());
+            var targetFamilyModel = FamilyBuilder.BuildMemberDocuments(spec, new DocumentCounter());
 
             targetFamilyModel.MemberDocuments.Select(x => x.Status).Should().BeEquivalentTo(expectedStates, o => o.WithStrictOrdering());
         }
@@ -136,7 +136,7 @@ namespace DocHoseTest
         [Fact]
         public void GivenFamilySpec_MembersHasCorrectStatus()
         {
-            TargetFamilyModel buildTargetFamilyModel = Builder.BuildTargetFamilyModel(FamilySpec, new DocumentCounter());
+            TargetFamilyModel buildTargetFamilyModel = FamilyBuilder.BuildMemberDocuments(FamilySpec, new DocumentCounter());
 
             var members = buildTargetFamilyModel.MemberDocuments.ToArray();
             members[3].EffectiveDate.Date.Should().BeBefore(DateTime.Now);

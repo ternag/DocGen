@@ -70,36 +70,3 @@ public static class Builder
         }
     }
 }
-
-public static class FamilyBuilder
-{
-    public static TargetFamilyModel BuildMemberDocuments(FamilySpec familySpec, DocumentCounter counter)
-    {
-        var members = Builder.BuildTargetDocuments(familySpec.TargetDocuments, counter);
-        var family = new TargetFamilyModel(familySpec.FamilyName, members.ToArray());
-        return family.OrderMembers().CreateVersionChain().SetDatesByStatus();
-    }
-
-    private static TargetFamilyModel OrderMembers(this TargetFamilyModel family)
-    {
-        family.MemberDocuments = family.MemberDocuments.OrderBy(x => x.Status).ToArray();
-        return family;
-    }
-
-    private static TargetFamilyModel SetDatesByStatus(this TargetFamilyModel family)
-    {
-        family.MemberDocuments.Select()
-        return family;
-    }
-
-    private static TargetFamilyModel CreateVersionChain(this TargetFamilyModel family)
-    {
-        if (family.MemberDocuments.Length <= 1) return family;
-        for (var i = 1; i < family.MemberDocuments.Length; i++)
-        {
-            
-        }
-
-        return family;
-    }
-}
